@@ -148,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun moveToHome() {
-        showToast(R.string.login_succeed.toString())
+        showToast(getString(R.string.login_succeed))
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
