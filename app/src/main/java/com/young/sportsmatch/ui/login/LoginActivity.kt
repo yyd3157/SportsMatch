@@ -21,9 +21,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.young.sportsmatch.BuildConfig
-import com.young.sportsmatch.MainActivity
+import com.young.sportsmatch.ui.setting.SettingActivity
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivityLoginBinding
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -148,8 +149,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun moveToHome() {
-        showToast(getString(R.string.login_succeed))
-        startActivity(Intent(this, MainActivity::class.java))
+        showToast(R.string.login_succeed.toString())
+        startActivity(Intent(this, SettingActivity::class.java))
         finish()
     }
 
