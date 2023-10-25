@@ -11,12 +11,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiClient {
 
-    @POST("user.json")
+    @PUT("user/{userId}.json")
     suspend fun addUser(
+        @Path("userId") userId: String,
         @Query("auth") auth: String,
         @Body user: User,
     ): Response<Map<String, String>>

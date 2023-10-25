@@ -9,8 +9,8 @@ import retrofit2.Response
 
 class UserRemoteDataSource(private val apiClient: ApiClient) {
 
-    suspend fun addUser(auth: String, user: User): Response<Map<String, String>> {
-        return apiClient.addUser(auth, user)
+    suspend fun addUser(userId: String, auth: String, user: User): Response<Map<String, String>> {
+        return apiClient.addUser(userId, auth, user)
     }
 
     suspend fun uploadImage(image: Uri?): String {
