@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green_100"
         android:text="@string/complete"
-        android:textColor="@color/greem_200"
+        android:textColor="@color/green_200"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
