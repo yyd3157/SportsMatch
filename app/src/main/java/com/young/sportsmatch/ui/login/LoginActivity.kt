@@ -38,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
-        createdSignClient()
+
+        autoLogin()
 
         binding.btnLogin.setOnClickListener {
             showOneTapUI()
@@ -156,5 +157,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun autoLogin() {
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        if (user != null) {
+            moveToHome()
+        } else {
+            createdSignClient()
+
+        }
     }
 }
