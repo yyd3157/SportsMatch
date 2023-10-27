@@ -1,9 +1,11 @@
 package com.young.sportsmatch.ui.setting
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import coil.load
@@ -15,6 +17,7 @@ import com.young.sportsmatch.SportsMatchApplication
 import com.young.sportsmatch.data.source.SettingRepository
 import com.young.sportsmatch.data.source.remote.UserRemoteDataSource
 import com.young.sportsmatch.databinding.ActivitySettingBinding
+import com.young.sportsmatch.ui.login.LoginActivity
 
 class SettingActivity : AppCompatActivity() {
 
@@ -42,6 +45,7 @@ class SettingActivity : AppCompatActivity() {
 
         observeUserInfo()
         submit()
+        logout()
     }
 
     private fun submit() {
@@ -53,7 +57,7 @@ class SettingActivity : AppCompatActivity() {
             if (nickname.isNotEmpty()) {
                 viewModel.addUser(nickname)
             } else {
-                // 닉네임이 비어있을 때 처리
+                // 닉네임 조건에 따른 처리 예정
             }
         }
     }
@@ -90,5 +94,24 @@ class SettingActivity : AppCompatActivity() {
                 // 사용자 정보를 가져오지 못한 경우에 대한 처리
             }
         }
+    }
+
+    private fun logout() {
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
+        viewModel.logout.observe(this) { isSuccess ->
+            if (isSuccess) {
+                showToast(getString(R.string.logout_succeed))
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            } else {
+
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
