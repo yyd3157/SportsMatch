@@ -3,10 +3,13 @@ package com.young.sportsmatch.ui.setting
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
 import com.young.sportsmatch.SportsMatchApplication
 import com.young.sportsmatch.data.source.SettingRepository
@@ -37,6 +40,7 @@ class SettingActivity : AppCompatActivity() {
         binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        observeUserInfo()
         submit()
     }
 
@@ -60,6 +64,31 @@ class SettingActivity : AppCompatActivity() {
             transformations(CircleCropTransformation())
             placeholder(R.drawable.ic_default_picture)
             error(R.drawable.ic_default_picture)
+        }
+    }
+
+    private fun observeUserInfo() {
+        viewModel.getUser()
+        viewModel.userInfo.observe(this) { user ->
+            if (user != null) {
+                val nickName = user.nickName
+                val imageUrl = user.imageUrl
+                val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+                val imageRef = storageReference.child(imageUrl)
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    Log.d("ImageLoad", "Image URL: $uri")
+                    binding.ivProfileImage.load(uri) {
+                        transformations(CircleCropTransformation())
+                        placeholder(R.drawable.ic_default_picture)
+                        error(R.drawable.ic_default_picture)
+                    }
+                }.addOnFailureListener { e ->
+                    Log.e("FirebaseStorage", "Error getting download URL: $e")
+                }
+                binding.etNickName.setText(nickName)
+            } else {
+                // 사용자 정보를 가져오지 못한 경우에 대한 처리
+            }
         }
     }
 }
