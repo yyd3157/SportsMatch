@@ -21,6 +21,13 @@ class SettingRepository(
             authToken.toString(), User(nickName, imageUri))
     }
 
+    suspend fun getUser(): Response<User> {
+        val auth = FirebaseAuth.getInstance().currentUser
+        val userId = auth?.uid
+        val authToken = auth?.getIdToken(true)?.await()?.token
+        return remoteDataSource.getUser(userId.toString(), authToken.toString())
+    }
+
     private suspend fun uploadImage(image: Uri?): String {
         return remoteDataSource.uploadImage(image)
     }

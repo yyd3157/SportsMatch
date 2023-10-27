@@ -13,6 +13,10 @@ class UserRemoteDataSource(private val apiClient: ApiClient) {
         return apiClient.addUser(userId, auth, user)
     }
 
+    suspend fun getUser(userId: String, auth: String): Response<User> {
+        return apiClient.getUser(userId, auth)
+    }
+
     suspend fun uploadImage(image: Uri?): String {
         val storageRef = FirebaseStorage.getInstance().reference
         val name = FirebaseAuth.getInstance().currentUser?.displayName
