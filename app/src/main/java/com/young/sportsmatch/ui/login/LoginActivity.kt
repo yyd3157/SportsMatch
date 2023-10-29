@@ -21,9 +21,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.young.sportsmatch.BuildConfig
-import com.young.sportsmatch.MainActivity
+import com.young.sportsmatch.ui.setting.SettingActivity
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivityLoginBinding
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
-        createdSignClient()
+
+        autoLogin()
 
         binding.btnLogin.setOnClickListener {
             showOneTapUI()
@@ -149,11 +151,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun moveToHome() {
         showToast(getString(R.string.login_succeed))
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, SettingActivity::class.java))
         finish()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun autoLogin() {
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        if (user != null) {
+            moveToHome()
+        } else {
+            createdSignClient()
+
+        }
     }
 }
