@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/navigation_home">
+
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.young.sportsmatch.ui.home.HomeActivity"
+        android:label="HomeActivity"
+        tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.young.sportsmatch.ui.favorites.FavoritesFragment"
+        android:label="@string/label_favorites_destination"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.young.sportsmatch.ui.home.HomeFragment"
+        android:label="@string/label_home_destination"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.young.sportsmatch.ui.map.MapFragment"
+        android:label="@string/label_map_destination"
+        tools:layout="@layout/fragment_map" />
+
+</navigation>

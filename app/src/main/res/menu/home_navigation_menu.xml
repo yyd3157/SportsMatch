@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/selector_map_menu"
+        android:title="@string/label_map_destination" />
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/selector_home_menu"
+        android:title="@string/label_home_destination" />
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/selector_favorites_menu"
+        android:title="@string/label_favorites_destination" />
+</menu>
