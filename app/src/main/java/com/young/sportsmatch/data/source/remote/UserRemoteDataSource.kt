@@ -6,8 +6,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.young.sportsmatch.data.model.User
 import kotlinx.coroutines.tasks.await
 import retrofit2.Response
+import javax.inject.Inject
 
-class UserRemoteDataSource(private val apiClient: ApiClient) {
+class UserRemoteDataSource @Inject constructor(private val apiClient: ApiClient) {
 
     suspend fun addUser(userId: String, auth: String, user: User): Response<Map<String, String>> {
         return apiClient.addUser(userId, auth, user)

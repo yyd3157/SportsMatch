@@ -24,8 +24,9 @@ import com.young.sportsmatch.BuildConfig
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivityLoginBinding
 import com.young.sportsmatch.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
