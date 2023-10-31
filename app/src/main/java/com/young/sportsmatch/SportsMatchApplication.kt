@@ -1,12 +1,7 @@
 package com.young.sportsmatch
 
 import android.app.Application
-import com.young.sportsmatch.data.source.remote.ApiContainer
+import dagger.hilt.android.HiltAndroidApp
 
-class SportsMatchApplication : Application() {
-
-    companion object {
-        val appContainer = ApiContainer()
-    }
-
-}
+@HiltAndroidApp
+class SportsMatchApplication : Application()

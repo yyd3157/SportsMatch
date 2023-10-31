@@ -6,15 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.data.source.SettingRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class SettingViewModel(
+@HiltViewModel
+class SettingViewModel @Inject constructor(
     private val repository: SettingRepository,
 ) : ViewModel() {
 
@@ -54,14 +54,5 @@ class SettingViewModel(
     fun logout() {
         auth.signOut()
         _logout.postValue(true)
-    }
-
-    companion object {
-
-        fun provideFactory(repository: SettingRepository) = viewModelFactory {
-            initializer {
-                SettingViewModel(repository)
-            }
-        }
     }
 }

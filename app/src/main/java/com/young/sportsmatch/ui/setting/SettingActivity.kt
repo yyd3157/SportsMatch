@@ -13,24 +13,15 @@ import coil.transform.CircleCropTransformation
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
-import com.young.sportsmatch.SportsMatchApplication
-import com.young.sportsmatch.data.source.SettingRepository
-import com.young.sportsmatch.data.source.remote.UserRemoteDataSource
 import com.young.sportsmatch.databinding.ActivitySettingBinding
 import com.young.sportsmatch.ui.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingBinding
-    private val viewModel: SettingViewModel by viewModels {
-        SettingViewModel.provideFactory(
-            SettingRepository(
-                UserRemoteDataSource(
-                    SportsMatchApplication.appContainer.provideApiClient()
-                )
-            )
-        )
-    }
+    private val viewModel: SettingViewModel by viewModels()
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
