@@ -24,6 +24,8 @@ android {
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties["google_client_id"] as String)
         buildConfigField("String", "FIRE_BASE_URL", properties["fire_base_url"] as String)
+        buildConfigField("String", "KAKAO_BASE_URL", properties["kakao_base_url"] as String)
+        buildConfigField("String", "KAKAO_API_KEY", properties["kakao_api_key"] as String)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -88,6 +90,9 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+
+    implementation(fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
+    implementation(files("libs/libDaumMapAndroid.jar"))
 }
 
 kapt {
