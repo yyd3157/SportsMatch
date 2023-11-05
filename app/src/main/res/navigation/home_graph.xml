@@ -25,5 +25,13 @@
         android:name="com.young.sportsmatch.ui.map.MapFragment"
         android:label="@string/label_map_destination"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/navigaion_write"
+        android:name="com.young.sportsmatch.ui.write.WriteFragment"
+        android:label="WriteFragment"
+        tools:layout="@layout/fragment_write"/>
+    <action
+        android:id="@+id/action_global_write"
+        app:destination="@+id/navigaion_write" />
 
 </navigation>
