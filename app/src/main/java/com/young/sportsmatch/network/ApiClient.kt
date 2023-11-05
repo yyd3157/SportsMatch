@@ -1,7 +1,7 @@
-package com.young.sportsmatch.data.source.remote
+package com.young.sportsmatch.network
 
 import com.young.sportsmatch.data.model.User
-import retrofit2.Response
+import com.young.sportsmatch.network.model.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -14,13 +14,13 @@ interface ApiClient {
     suspend fun getUser(
         @Path("userId") userId: String,
         @Query("auth") auth: String,
-    ): Response<User>
+    ): ApiResponse<User>
 
     @PUT("user/{userId}.json")
     suspend fun addUser(
         @Path("userId") userId: String,
         @Query("auth") auth: String,
         @Body user: User,
-    ): Response<Map<String, String>>
+    ): ApiResponse<Map<String, String>>
 
 }
