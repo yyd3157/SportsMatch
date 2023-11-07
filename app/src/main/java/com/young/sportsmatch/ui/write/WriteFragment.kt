@@ -1,10 +1,13 @@
 package com.young.sportsmatch.ui.write
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +19,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
-class WriteFragment : Fragment() {
+class WriteFragment : Fragment(), MapView.POIItemEventListener {
 
     private var _binding: FragmentWriteBinding? = null
     private val binding get() = _binding!!
@@ -37,8 +40,8 @@ class WriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         hideBottomNavigation(true)
+        mapView.setPOIItemEventListener(this)
         searchMap()
-
     }
 
     override fun onDestroyView() {
@@ -77,11 +80,39 @@ class WriteFragment : Fragment() {
 
                         mapView.addPOIItem(marker)
 
-                        Log.d("map2", "${response.documents}")
+                        Log.d("map2", "$place")
                     }
                 }
             }
         }
     }
 
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(
+        mapView: MapView?, poiItem: MapPOIItem?, buttonType: MapPOIItem.CalloutBalloonButtonType?
+    ) {
+        val builder = AlertDialog.Builder(context)
+        val itemList = arrayOf("확인", "취소")
+        builder.setTitle("${poiItem?.itemName}")
+        builder.setItems(itemList) { dialog, which ->
+            when(which) {
+                0 -> {
+                    binding.etWriteLocation.text = Editable.Factory.getInstance().newEditable(poiItem?.itemName)
+                }
+                1 -> dialog.dismiss()   // 대화상자 닫기
+            }
+        }
+        builder.show()
+    }
+
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
+
+    }
 }
