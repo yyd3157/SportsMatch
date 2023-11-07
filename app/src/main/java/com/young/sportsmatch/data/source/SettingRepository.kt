@@ -13,8 +13,8 @@ class SettingRepository @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
 ) {
 
-    suspend fun addUser(nickName: String, imageUrl: String): ApiResponse<Map<String, String>> {
-        val imageUri = uploadImage(imageUrl.toUri())
+    suspend fun addUser(nickName: String, imageUrl: String?): ApiResponse<Map<String, String>> {
+        val imageUri = uploadImage(imageUrl?.toUri())
         val auth = FirebaseAuth.getInstance().currentUser
         val userId = auth?.uid
         val authToken = auth?.getIdToken(true)?.await()?.token
