@@ -11,6 +11,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.FragmentWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
@@ -19,6 +21,7 @@ class WriteFragment : Fragment() {
     private var _binding: FragmentWriteBinding? = null
     private val binding get() = _binding!!
     private val viewModel: WriteViewModel by viewModels()
+    private lateinit var mapView: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,8 +29,7 @@ class WriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWriteBinding.inflate(inflater, container, false)
-
-        val mapView = MapView(requireActivity())
+        mapView = MapView(requireActivity())
         binding.rlWriteLocationImg.addView(mapView)
         return binding.root
     }
@@ -53,13 +55,33 @@ class WriteFragment : Fragment() {
         }
     }
 
+    private var isMapViewInitialized = false
+
     private fun searchMap() {
         binding.ivWriteLocation.setOnClickListener {
             val searchText = binding.etWriteLocation.text.toString()
             viewModel.getMap(searchText)
-            viewModel.searchMap.observe(viewLifecycleOwner){
-                Log.d("map2", "$it")
+            viewModel.searchMap.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    if (!isMapViewInitialized) {
+                        isMapViewInitialized = true
+                    }
+                    mapView.removeAllPOIItems()
+                    for (place in response.documents) {
+                        val marker = MapPOIItem()
+                        marker.itemName = place.place_name
+                        marker.tag = 0
+                        marker.mapPoint = MapPoint.mapPointWithGeoCoord(place.y.toDouble(), place.x.toDouble())
+                        marker.markerType = MapPOIItem.MarkerType.BluePin
+                        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+
+                        mapView.addPOIItem(marker)
+
+                        Log.d("map2", "${response.documents}")
+                    }
+                }
             }
         }
     }
+
 }
