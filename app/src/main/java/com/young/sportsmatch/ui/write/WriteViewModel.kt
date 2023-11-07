@@ -24,7 +24,6 @@ class WriteViewModel @Inject constructor(
 
     fun getMap(searchText: String) {
         viewModelScope.launch {
-            try {
                 val response = repository.getMap(searchText)
                 when (response) {
                     is ApiResultSuccess -> {
@@ -40,10 +39,6 @@ class WriteViewModel @Inject constructor(
                         _searchMap.postValue(null)
                     }
                 }
-            } catch (e: Exception) {
-                Log.d("ViewModel", "네트워크 요청 실패: ${e.message}")
-                _searchMap.postValue(null)
-            }
         }
     }
 }
