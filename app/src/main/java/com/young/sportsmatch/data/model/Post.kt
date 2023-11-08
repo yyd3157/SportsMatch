@@ -8,5 +8,12 @@ data class Post(
     val title: String,
     val category: String,
     val date: String,
-    var place: Place,
+    var markerPlace: MarkerPlace,
+)
+
+@JsonClass(generateAdapter = true)
+data class MarkerPlace(
+    var place_name: String,
+    var x: String,
+    var y: String,
 )
