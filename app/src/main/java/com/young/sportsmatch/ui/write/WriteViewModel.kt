@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.data.model.SearchPlaceList
 import com.young.sportsmatch.data.source.WriteRepository
 import com.young.sportsmatch.network.model.ApiResultError
@@ -41,4 +42,10 @@ class WriteViewModel @Inject constructor(
                 }
         }
     }
+    fun addPost(title: String, category: String, date: String, markerPlace: MarkerPlace) {
+        viewModelScope.launch {
+            repository.addPost(title, category, date, markerPlace)
+        }
+    }
+
 }

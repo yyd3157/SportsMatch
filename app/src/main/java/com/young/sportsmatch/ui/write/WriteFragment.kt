@@ -7,11 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.young.sportsmatch.R
+import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.databinding.FragmentWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
@@ -25,6 +25,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
     private val binding get() = _binding!!
     private val viewModel: WriteViewModel by viewModels()
     private lateinit var mapView: MapView
+    private var selectedMarker: MapPOIItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +43,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         hideBottomNavigation(true)
         mapView.setPOIItemEventListener(this)
         searchMap()
+        submit()
     }
 
     override fun onDestroyView() {
@@ -70,6 +72,10 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
                         isMapViewInitialized = true
                     }
                     mapView.removeAllPOIItems()
+                    if (response.documents.isNotEmpty()) {
+                        val firstPlace = response.documents[0]
+                        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(firstPlace.y.toDouble(), firstPlace.x.toDouble()), 7, true)
+                    }
                     for (place in response.documents) {
                         val marker = MapPOIItem()
                         marker.itemName = place.place_name
@@ -105,6 +111,8 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
             when(which) {
                 0 -> {
                     binding.etWriteLocation.text = Editable.Factory.getInstance().newEditable(poiItem?.itemName)
+                    Log.d("potItem","$poiItem")
+                    selectedMarker = poiItem
                 }
                 1 -> dialog.dismiss()   // 대화상자 닫기
             }
@@ -114,5 +122,22 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
 
+    }
+
+    private fun submit() {
+        binding.btnAddPost.setOnClickListener {
+            val title = binding.etWriteTitle.text.toString()
+            val category = binding.etWriteCategory.text.toString()
+            val date = binding.etWriteDate.text.toString()
+            val placeName : String? = selectedMarker?.itemName
+            val x: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.longitude.toString()
+            val y: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.latitude.toString()
+
+            if (title.isNotEmpty()&&category.isNotEmpty()&&date.isNotEmpty()&&placeName != null&&x.isNotEmpty()&&y.isNotEmpty()) {
+                viewModel.addPost(title, category, date, MarkerPlace(placeName, x, y))
+            } else {
+                // 빈칸 조건에 따른 처리 예정
+            }
+        }
     }
 }

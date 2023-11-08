@@ -1,9 +1,11 @@
 package com.young.sportsmatch.network
 
+import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.network.model.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -23,4 +25,10 @@ interface ApiClient {
         @Body user: User,
     ): ApiResponse<Map<String, String>>
 
+    @POST("post/{userId}.json")
+    suspend fun addPost(
+        @Path("userId") userId: String,
+        @Query("auth") auth: String,
+        @Body post: Post,
+    ): ApiResponse<Map<String, String>>
 }
