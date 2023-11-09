@@ -21,14 +21,15 @@
         android:id="@+id/et_write_title"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:gravity="start|center"
         android:background="@android:color/transparent"
+        android:gravity="start|center"
         android:textColor="@color/black"
         android:textSize="17sp"
+        android:hint="@string/write_title_hint"
         app:layout_constraintBottom_toTopOf="@+id/view_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_write_title"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_write_title" />
 
     <View
         android:id="@+id/view_title"
@@ -51,20 +52,19 @@
         android:textColor="@color/black"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_write_title" />
+        app:layout_constraintTop_toBottomOf="@+id/view_title" />
 
-    <EditText
-        android:id="@+id/et_write_category"
+    <Spinner
+        android:id="@+id/spinner_write_category"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@android:color/transparent"
         android:gravity="start|center"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/view_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_write_category"
-        app:layout_constraintTop_toBottomOf="@+id/view_title" />
+        app:layout_constraintTop_toTopOf="@+id/tv_write_category" />
 
     <View
         android:id="@+id/view_category"
@@ -75,19 +75,19 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_write_category" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_write_category" />
 
     <TextView
         android:id="@+id/tv_write_date"
         android:layout_width="80dp"
         android:layout_height="50dp"
-        android:gravity="start|center"
+        android:gravity="center"
         android:text="@string/time"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_write_category" />
+        app:layout_constraintTop_toBottomOf="@+id/view_category" />
 
     <EditText
         android:id="@+id/et_write_date"
@@ -95,11 +95,22 @@
         android:layout_height="50dp"
         android:background="@android:color/transparent"
         android:gravity="start|center"
+        android:hint="@string/write_date_hint"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_write_category"
-        app:layout_constraintTop_toBottomOf="@+id/view_category" />
+        app:layout_constraintTop_toTopOf="@+id/tv_write_date" />
+
+    <ImageView
+        android:id="@+id/iv_write_date"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_schedule"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_write_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_write_category" />
 
     <View
         android:id="@+id/view_date"
@@ -110,19 +121,19 @@
         android:background="@color/green_400"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_write_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_write_date" />
 
     <TextView
         android:id="@+id/tv_write_location"
         android:layout_width="80dp"
         android:layout_height="50dp"
-        android:gravity="start|center"
+        android:gravity="center"
         android:text="@string/location"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_write_date" />
+        app:layout_constraintTop_toBottomOf="@+id/view_date" />
 
     <EditText
         android:id="@+id/et_write_location"
@@ -130,21 +141,23 @@
         android:layout_height="50dp"
         android:background="@android:color/transparent"
         android:gravity="start|center"
+        android:hint="@string/write_location_hint"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/iv_write_location"
         app:layout_constraintStart_toEndOf="@+id/tv_write_category"
-        app:layout_constraintTop_toBottomOf="@+id/view_date" />
+        app:layout_constraintTop_toTopOf="@+id/tv_write_location" />
 
     <ImageView
         android:id="@+id/iv_write_location"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_location"
         app:layout_constraintBottom_toBottomOf="@+id/tv_write_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_write_date" />
+
     <View
         android:id="@+id/view_location"
         android:layout_width="0dp"
@@ -152,7 +165,7 @@
         android:background="@color/green_400"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_write_location" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_write_location" />
 
     <RelativeLayout
         android:id="@+id/rl_write_location_img"

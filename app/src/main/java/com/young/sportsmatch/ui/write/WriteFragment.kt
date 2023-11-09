@@ -1,12 +1,14 @@
 package com.young.sportsmatch.ui.write
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import java.util.Calendar
 
 @AndroidEntryPoint
 class WriteFragment : Fragment(), MapView.POIItemEventListener {
@@ -35,6 +38,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         _binding = FragmentWriteBinding.inflate(inflater, container, false)
         mapView = MapView(requireActivity())
         binding.rlWriteLocationImg.addView(mapView)
+        binding.ivWriteDate.setOnClickListener { onDataPicker() }
         return binding.root
     }
 
@@ -44,6 +48,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         mapView.setPOIItemEventListener(this)
         searchMap()
         submit()
+        setUpSpinner()
     }
 
     override fun onDestroyView() {
@@ -127,7 +132,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
     private fun submit() {
         binding.btnAddPost.setOnClickListener {
             val title = binding.etWriteTitle.text.toString()
-            val category = binding.etWriteCategory.text.toString()
+            val category = binding.spinnerWriteCategory.selectedItem.toString()
             val date = binding.etWriteDate.text.toString()
             val placeName : String? = selectedMarker?.itemName
             val x: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.longitude.toString()
@@ -139,5 +144,28 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
                 // 빈칸 조건에 따른 처리 예정
             }
         }
+    }
+
+    private fun onDataPicker() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        context?.let { it1 ->
+            DatePickerDialog(it1, { _, year, month, day ->
+                run {
+                    binding.etWriteDate.setText(year.toString() + "." + (month + 1).toString() + "." + day.toString() + " / ")
+                }
+            }, year, month, day)
+        }?.show()
+    }
+
+    private fun setUpSpinner() {
+        val spinner = binding.spinnerWriteCategory
+        val category = resources.getStringArray(R.array.category_array)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, category)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = adapter
     }
 }

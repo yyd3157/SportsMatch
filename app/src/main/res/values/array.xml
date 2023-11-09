@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_array">
+        <item>@string/category_soccer</item>
+        <item>@string/category_baseball</item>
+        <item>@string/category_tennis</item>
+        <item>@string/category_bowling</item>
+        <item>@string/category_etc</item>
+    </string-array>
+</resources>
