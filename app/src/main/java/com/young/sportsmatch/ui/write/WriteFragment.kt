@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.databinding.FragmentWriteBinding
@@ -44,7 +45,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideBottomNavigation(true)
+        hideActivityMenu(true)
         mapView.setPOIItemEventListener(this)
         searchMap()
         submit()
@@ -53,15 +54,18 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        hideBottomNavigation(false)
+        hideActivityMenu(false)
     }
 
-    private fun hideBottomNavigation(boolean: Boolean) {
+    private fun hideActivityMenu(boolean: Boolean) {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
         if (boolean){
             bottomNavigation?.visibility = View.GONE
+            writeButton?.hide()
         } else {
             bottomNavigation?.visibility = View.VISIBLE
+            writeButton?.show()
         }
     }
 
