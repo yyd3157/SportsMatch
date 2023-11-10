@@ -7,8 +7,9 @@ import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.data.source.remote.UserRemoteDataSource
 import kotlinx.coroutines.tasks.await
 import retrofit2.Response
+import javax.inject.Inject
 
-class SettingRepository(
+class SettingRepository @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
 ) {
 
