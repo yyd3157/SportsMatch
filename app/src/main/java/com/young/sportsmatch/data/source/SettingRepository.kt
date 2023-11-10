@@ -5,16 +5,16 @@ import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.data.source.remote.UserRemoteDataSource
+import com.young.sportsmatch.network.model.ApiResponse
 import kotlinx.coroutines.tasks.await
-import retrofit2.Response
 import javax.inject.Inject
 
 class SettingRepository @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
 ) {
 
-    suspend fun addUser(nickName: String, imageUrl: String): Response<Map<String, String>> {
-        val imageUri = uploadImage(imageUrl.toUri())
+    suspend fun addUser(nickName: String, imageUrl: String?): ApiResponse<Map<String, String>> {
+        val imageUri = uploadImage(imageUrl?.toUri())
         val auth = FirebaseAuth.getInstance().currentUser
         val userId = auth?.uid
         val authToken = auth?.getIdToken(true)?.await()?.token
@@ -22,7 +22,7 @@ class SettingRepository @Inject constructor(
             authToken.toString(), User(nickName, imageUri))
     }
 
-    suspend fun getUser(): Response<User> {
+    suspend fun getUser(): ApiResponse<User> {
         val auth = FirebaseAuth.getInstance().currentUser
         val userId = auth?.uid
         val authToken = auth?.getIdToken(true)?.await()?.token

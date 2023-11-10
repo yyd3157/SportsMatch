@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.data.source.SettingRepository
+import com.young.sportsmatch.network.model.ApiResultError
+import com.young.sportsmatch.network.model.ApiResultException
+import com.young.sportsmatch.network.model.ApiResultSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,8 +31,16 @@ class SettingViewModel @Inject constructor(
     fun addUser(nickname: String) {
         viewModelScope.launch {
             val response = repository.addUser(nickname, imageUrl.toString())
-            if (response.isSuccessful) {
-                getUser()
+            when (response) {
+                is ApiResultSuccess -> {
+                    Log.d("ViewModel", "success: ${response.data}")
+                }
+                is ApiResultError -> {
+                    Log.d("ViewModel", "error code: ${response.code}, message: ${response.message}")
+                }
+                is ApiResultException -> {
+                    Log.d("ViewModel", "exception: ${response.throwable}")
+                }
             }
         }
     }
@@ -37,12 +48,20 @@ class SettingViewModel @Inject constructor(
     fun getUser() {
         viewModelScope.launch {
             val response = repository.getUser()
-            Log.d("post", "$response")
-            if (response.isSuccessful) {
-                val user = response.body()
-                _userInfo.postValue(user)
-            } else {
-                _userInfo.postValue(null)
+            when (response) {
+                is ApiResultSuccess -> {
+                    Log.d("ViewModel", "success: ${response.data}")
+                    val user = response.data
+                    _userInfo.postValue(user)
+                }
+                is ApiResultError -> {
+                    Log.d("ViewModel", "error code: ${response.code}, message: ${response.message}")
+                    _userInfo.postValue(null)
+                }
+                is ApiResultException -> {
+                    Log.d("ViewModel", "exception: ${response.throwable}")
+                    _userInfo.postValue(null)
+                }
             }
         }
     }

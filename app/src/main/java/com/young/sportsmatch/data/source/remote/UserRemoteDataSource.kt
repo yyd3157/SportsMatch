@@ -4,17 +4,18 @@ import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.young.sportsmatch.data.model.User
+import com.young.sportsmatch.network.ApiClient
+import com.young.sportsmatch.network.model.ApiResponse
 import kotlinx.coroutines.tasks.await
-import retrofit2.Response
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(private val apiClient: ApiClient) {
 
-    suspend fun addUser(userId: String, auth: String, user: User): Response<Map<String, String>> {
+    suspend fun addUser(userId: String, auth: String, user: User): ApiResponse<Map<String, String>> {
         return apiClient.addUser(userId, auth, user)
     }
 
-    suspend fun getUser(userId: String, auth: String): Response<User> {
+    suspend fun getUser(userId: String, auth: String): ApiResponse<User> {
         return apiClient.getUser(userId, auth)
     }
 
