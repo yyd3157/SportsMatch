@@ -18,8 +18,8 @@ class WriteRepository @Inject constructor(
         return mapRemoteDataSource.getMap(key, searchText)
     }
 
-    suspend fun addPost(title: String, category: String, date: String, markerPlace: MarkerPlace): ApiResponse<Map<String, String>>? {
-        return postRemoteDataSource.addPost(title, category, date, markerPlace)
+    suspend fun addPost(title: String, category: String, type: String, date: String, markerPlace: MarkerPlace, content: String): ApiResponse<Map<String, String>>? {
+        return postRemoteDataSource.addPost(title, category, type, date, markerPlace, content)
         // 결과를 처리하는 코드 추가
     }
 }

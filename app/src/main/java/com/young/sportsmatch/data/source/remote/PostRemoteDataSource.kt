@@ -12,14 +12,14 @@ import javax.inject.Inject
 
 class PostRemoteDataSource @Inject constructor(private val apiClient: ApiClient) {
 
-    suspend fun addPost(title: String, category: String, date: String, markerPlace: MarkerPlace): ApiResponse<Map<String, String>>? {
+    suspend fun addPost(title: String, category: String, type: String, date: String, markerPlace: MarkerPlace, content: String): ApiResponse<Map<String, String>>? {
         val auth = FirebaseAuth.getInstance().currentUser
         val userId = auth?.uid
         val authToken = auth?.getIdToken(true)?.await()?.token
         val userResponse = getUser(userId.toString(), authToken.toString())
         if (userResponse is ApiResultSuccess) {
             val user = userResponse.data
-            val post = Post(user, title, category, date, markerPlace)
+            val post = Post(user, title, category, type, date, markerPlace, content)
             return apiClient.addPost(userId.toString(), authToken.toString(), post)
         } else {
             return null

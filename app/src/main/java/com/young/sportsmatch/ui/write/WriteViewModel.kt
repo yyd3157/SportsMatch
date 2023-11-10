@@ -42,9 +42,9 @@ class WriteViewModel @Inject constructor(
                 }
         }
     }
-    fun addPost(title: String, category: String, date: String, markerPlace: MarkerPlace) {
+    fun addPost(title: String, category: String, type: String, date: String, markerPlace: MarkerPlace, content: String) {
         viewModelScope.launch {
-            repository.addPost(title, category, date, markerPlace)
+            repository.addPost(title, category, type, date, markerPlace, content)
         }
     }
 
