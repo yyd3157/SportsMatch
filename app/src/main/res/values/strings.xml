@@ -18,9 +18,13 @@
     <string name="category_tennis">테니스</string>
     <string name="category_bowling">볼링</string>
     <string name="category_etc">기타</string>
+    <string name="category_type_matching">매칭신청</string>
+    <string name="category_type_team_meet">팀원모집</string>
+    <string name="category_type_edu">강습</string>
     <string name="write_location_hint">장소입력 후 오른쪽 아이콘을 클릭해주세요.</string>
     <string name="write_date_hint">xxxx.xx.xx / 뒤에 시간을 적어주세요.</string>
     <string name="write_title_hint">제목을 입력해주세요.</string>
+    <string name="write_content_hint">내용을 적어주세요.</string>
     <string name="label_main_destination">HomeActivity</string>
     <string name="label_write_destination">WriteFragment</string>
 </resources>

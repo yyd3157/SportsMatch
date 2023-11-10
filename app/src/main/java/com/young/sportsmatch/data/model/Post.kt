@@ -7,8 +7,10 @@ data class Post(
     val user: User,
     val title: String,
     val category: String,
+    val type: String,
     val date: String,
     var markerPlace: MarkerPlace,
+    val content: String,
 )
 
 @JsonClass(generateAdapter = true)

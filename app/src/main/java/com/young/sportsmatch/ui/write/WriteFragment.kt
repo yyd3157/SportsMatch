@@ -49,7 +49,8 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         mapView.setPOIItemEventListener(this)
         searchMap()
         submit()
-        setUpSpinner()
+        setUpSportsTypeSpinner()
+        setUpTypeSpinner()
     }
 
     override fun onDestroyView() {
@@ -137,13 +138,15 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         binding.btnAddPost.setOnClickListener {
             val title = binding.etWriteTitle.text.toString()
             val category = binding.spinnerWriteCategory.selectedItem.toString()
+            val type = binding.spinnerWriteType.selectedItem.toString()
             val date = binding.etWriteDate.text.toString()
             val placeName : String? = selectedMarker?.itemName
             val x: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.longitude.toString()
             val y: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.latitude.toString()
+            val content = binding.etWriteContent.text.toString()
 
             if (title.isNotEmpty()&&category.isNotEmpty()&&date.isNotEmpty()&&placeName != null&&x.isNotEmpty()&&y.isNotEmpty()) {
-                viewModel.addPost(title, category, date, MarkerPlace(placeName, x, y))
+                viewModel.addPost(title, category, type, date, MarkerPlace(placeName, x, y), content)
             } else {
                 // 빈칸 조건에 따른 처리 예정
             }
@@ -164,9 +167,18 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         }?.show()
     }
 
-    private fun setUpSpinner() {
+    private fun setUpSportsTypeSpinner() {
         val spinner = binding.spinnerWriteCategory
         val category = resources.getStringArray(R.array.category_array)
+        val adapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, category)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = adapter
+    }
+
+    private fun setUpTypeSpinner() {
+        val spinner = binding.spinnerWriteType
+        val category = resources.getStringArray(R.array.type_array)
         val adapter: ArrayAdapter<String> = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, category)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
