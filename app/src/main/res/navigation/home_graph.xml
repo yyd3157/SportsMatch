@@ -8,7 +8,7 @@
     <activity
         android:id="@+id/homeActivity"
         android:name="com.young.sportsmatch.ui.home.HomeActivity"
-        android:label="HomeActivity"
+        android:label="@string/label_main_destination"
         tools:layout="@layout/activity_home" />
     <fragment
         android:id="@+id/navigation_favorites"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/navigaion_write"
         android:name="com.young.sportsmatch.ui.write.WriteFragment"
-        android:label="WriteFragment"
+        android:label="@string/label_write_destination"
         tools:layout="@layout/fragment_write"/>
     <action
         android:id="@+id/action_global_write"

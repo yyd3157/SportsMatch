@@ -21,4 +21,6 @@
     <string name="write_location_hint">장소입력 후 오른쪽 아이콘을 클릭해주세요.</string>
     <string name="write_date_hint">xxxx.xx.xx / 뒤에 시간을 적어주세요.</string>
     <string name="write_title_hint">제목을 입력해주세요.</string>
+    <string name="label_main_destination">HomeActivity</string>
+    <string name="label_write_destination">WriteFragment</string>
 </resources>
