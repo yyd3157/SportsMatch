@@ -161,7 +161,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         context?.let { it1 ->
             DatePickerDialog(it1, { _, year, month, day ->
                 run {
-                    binding.etWriteDate.setText(year.toString() + "." + (month + 1).toString() + "." + day.toString() + " / ")
+                    binding.etWriteDate.setText(String.format("%d.%d.%d / ", year, month + 1, day))
                 }
             }, year, month, day)
         }?.show()
