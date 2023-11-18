@@ -8,6 +8,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.storage.FirebaseStorage
@@ -16,6 +19,8 @@ import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivitySettingBinding
 import com.young.sportsmatch.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingActivity : AppCompatActivity() {
@@ -28,6 +33,7 @@ class SettingActivity : AppCompatActivity() {
                 selectedImage(uri)
             }
         }
+    private var userLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,41 +69,48 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun observeUserInfo() {
-        viewModel.getUser()
-        viewModel.userInfo.observe(this) { user ->
-            if (user != null) {
-                val nickName = user.nickName
-                val imageUrl = user.imageUrl
-                val storageReference: StorageReference = FirebaseStorage.getInstance().reference
-                val imageRef = storageReference.child(imageUrl)
-                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    Log.d("ImageLoad", "Image URL: $uri")
-                    binding.ivProfileImage.load(uri) {
-                        transformations(CircleCropTransformation())
-                        placeholder(R.drawable.ic_default_picture)
-                        error(R.drawable.ic_default_picture)
+        lifecycleScope.launch {
+            viewModel.getUser()
+            viewModel.userInfo.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { user ->
+                if (user != null && !userLoaded) {
+                    userLoaded = true
+                    val nickName = user.nickName
+                    val imageUrl = user.imageUrl
+                    val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+                    val imageRef = storageReference.child(imageUrl)
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        Log.d("ImageLoad", "Image URL: $uri")
+                        binding.ivProfileImage.load(uri) {
+                            transformations(CircleCropTransformation())
+                            placeholder(R.drawable.ic_default_picture)
+                            error(R.drawable.ic_default_picture)
+                        }
+                    }.addOnFailureListener { e ->
+                        Log.e("FirebaseStorage", "Error getting download URL: $e")
                     }
-                }.addOnFailureListener { e ->
-                    Log.e("FirebaseStorage", "Error getting download URL: $e")
+                    binding.etNickName.setText(nickName)
+                    selectedImage(Uri.parse(imageUrl))
+                } else {
+                    // 사용자 정보를 가져오지 못한 경우에 대한 처리
                 }
-                binding.etNickName.setText(nickName)
-            } else {
-                // 사용자 정보를 가져오지 못한 경우에 대한 처리
             }
         }
-    }
+
+}
 
     private fun logout() {
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
-        }
-        viewModel.logout.observe(this) { isSuccess ->
-            if (isSuccess) {
-                showToast(getString(R.string.logout_succeed))
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            } else {
+            lifecycleScope.launch {
+                viewModel.logout.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { isSuccess ->
+                    if (isSuccess) {
+                        showToast(getString(R.string.logout_succeed))
+                        startActivity(Intent(this@SettingActivity, LoginActivity::class.java))
+                        finish()
+                    } else {
 
+                    }
+                }
             }
         }
     }
