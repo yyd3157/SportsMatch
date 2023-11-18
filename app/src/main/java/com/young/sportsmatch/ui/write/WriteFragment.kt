@@ -11,12 +11,17 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.databinding.FragmentWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -75,33 +80,40 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
     private fun searchMap() {
         binding.ivWriteLocation.setOnClickListener {
             val searchText = binding.etWriteLocation.text.toString()
-            viewModel.getMap(searchText)
-            viewModel.searchMap.observe(viewLifecycleOwner) { response ->
-                if (response != null) {
-                    if (!isMapViewInitialized) {
-                        isMapViewInitialized = true
-                    }
-                    mapView.removeAllPOIItems()
-                    if (response.documents.isNotEmpty()) {
-                        val firstPlace = response.documents[0]
-                        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(firstPlace.y.toDouble(), firstPlace.x.toDouble()), 7, true)
-                    }
-                    for (place in response.documents) {
-                        val marker = MapPOIItem()
-                        marker.itemName = place.place_name
-                        marker.tag = 0
-                        marker.mapPoint = MapPoint.mapPointWithGeoCoord(place.y.toDouble(), place.x.toDouble())
-                        marker.markerType = MapPOIItem.MarkerType.BluePin
-                        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
 
-                        mapView.addPOIItem(marker)
+            lifecycleScope.launch {
+                viewModel.getMap(searchText)
+                    viewModel.searchMap.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect { response ->
+                        if (response != null) {
+                            if (!isMapViewInitialized) {
+                                isMapViewInitialized = true
+                            }
+                            mapView.removeAllPOIItems()
+                            if (response.documents.isNotEmpty()) {
+                                val firstPlace = response.documents[0]
+                                mapView.setMapCenterPointAndZoomLevel(
+                                    MapPoint.mapPointWithGeoCoord(firstPlace.y.toDouble(), firstPlace.x.toDouble()), 7, true
+                                )
+                            }
+                            for (place in response.documents) {
+                                val marker = MapPOIItem()
+                                marker.itemName = place.place_name
+                                marker.tag = 0
+                                marker.mapPoint = MapPoint.mapPointWithGeoCoord(place.y.toDouble(), place.x.toDouble())
+                                marker.markerType = MapPOIItem.MarkerType.BluePin
+                                marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
 
-                        Log.d("map2", "$place")
+                                mapView.addPOIItem(marker)
+
+                                Log.d("map2", "$place")
+                            }
+                        }
                     }
-                }
             }
         }
     }
+
 
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
 

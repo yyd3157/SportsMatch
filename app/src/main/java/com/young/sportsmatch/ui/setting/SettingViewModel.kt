@@ -13,6 +13,9 @@ import com.young.sportsmatch.network.model.ApiResultError
 import com.young.sportsmatch.network.model.ApiResultException
 import com.young.sportsmatch.network.model.ApiResultSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,44 +26,32 @@ class SettingViewModel @Inject constructor(
 
     private var imageUrl: Uri? = null
     private val auth = FirebaseAuth.getInstance()
-    private val _logout = MutableLiveData<Boolean>()
-    val logout: LiveData<Boolean> = _logout
-    private val _userInfo = MutableLiveData<User?>()
-    val userInfo: LiveData<User?> = _userInfo
+    private val _logout = MutableStateFlow<Boolean>(false)
+    val logout: StateFlow<Boolean> = _logout
+    private val _userInfo = MutableStateFlow<User?>(null)
+    val userInfo: StateFlow<User?> = _userInfo
 
     fun addUser(nickname: String) {
         viewModelScope.launch {
-            val response = repository.addUser(nickname, imageUrl.toString())
-            when (response) {
-                is ApiResultSuccess -> {
-                    Log.d("ViewModel", "success: ${response.data}")
-                }
-                is ApiResultError -> {
-                    Log.d("ViewModel", "error code: ${response.code}, message: ${response.message}")
-                }
-                is ApiResultException -> {
-                    Log.d("ViewModel", "exception: ${response.throwable}")
-                }
-            }
+            repository.addUser(
+                onComplete = { },
+                onError = { },
+                nickname,
+                imageUrl.toString(),
+                ). collect { }
         }
     }
 
     fun getUser() {
         viewModelScope.launch {
-            val response = repository.getUser()
-            when (response) {
-                is ApiResultSuccess -> {
-                    Log.d("ViewModel", "success: ${response.data}")
-                    val user = response.data
-                    _userInfo.postValue(user)
-                }
-                is ApiResultError -> {
-                    Log.d("ViewModel", "error code: ${response.code}, message: ${response.message}")
-                    _userInfo.postValue(null)
-                }
-                is ApiResultException -> {
-                    Log.d("ViewModel", "exception: ${response.throwable}")
-                    _userInfo.postValue(null)
+            repository.getUser(
+                onComplete = { },
+                onError = { },
+            ).collect { response ->
+                if (response is ApiResultSuccess) {
+                    _userInfo.value = response.data
+                } else {
+                    _userInfo.value = null
                 }
             }
         }
@@ -72,6 +63,6 @@ class SettingViewModel @Inject constructor(
 
     fun logout() {
         auth.signOut()
-        _logout.postValue(true)
+        _logout.value = true
     }
 }
