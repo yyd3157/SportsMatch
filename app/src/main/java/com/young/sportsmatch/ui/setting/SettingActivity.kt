@@ -19,7 +19,6 @@ import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivitySettingBinding
 import com.young.sportsmatch.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -89,7 +88,6 @@ class SettingActivity : AppCompatActivity() {
                         Log.e("FirebaseStorage", "Error getting download URL: $e")
                     }
                     binding.etNickName.setText(nickName)
-                    selectedImage(Uri.parse(imageUrl))
                 } else {
                     // 사용자 정보를 가져오지 못한 경우에 대한 처리
                 }
