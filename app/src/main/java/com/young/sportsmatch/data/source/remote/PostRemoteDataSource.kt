@@ -20,7 +20,7 @@ class PostRemoteDataSource @Inject constructor(private val apiClient: ApiClient)
         if (userResponse is ApiResultSuccess) {
             val user = userResponse.data
             val post = Post(user, title, category, type, date, markerPlace, content)
-            return apiClient.addPost(userId.toString(), authToken.toString(), post)
+            return apiClient.addPost(authToken!!, post)
         } else {
             return null
         }
@@ -28,5 +28,9 @@ class PostRemoteDataSource @Inject constructor(private val apiClient: ApiClient)
 
     suspend fun getUser(userId: String, auth: String): ApiResponse<User> {
         return apiClient.getUser(userId, auth)
+    }
+
+    suspend fun getPostList(auth: String): ApiResponse<Map<String, Post>> {
+        return apiClient.getPostList(auth)
     }
 }
