@@ -42,11 +42,12 @@ class CategoryPostListFragment : Fragment() {
     }
 
     private fun setLayout() {
+        viewModel.loadBookmarkState()
         val category = arguments?.getSerializable(Constants.ARG_CATEGORY) as? Category
         if (category != null) {
-            val adapter = PostListAdapter { post ->
+            val adapter = PostListAdapter({ post ->
                 // 클릭 이벤트 처리
-            }
+            }, viewModel)
             binding.rvPostList.adapter = adapter
             viewModel.onCategorySelected(category)
             lifecycleScope.launch {
