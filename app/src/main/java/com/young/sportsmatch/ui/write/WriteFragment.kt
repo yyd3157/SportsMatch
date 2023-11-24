@@ -20,7 +20,6 @@ import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.databinding.FragmentWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -157,7 +156,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
             val y: String = selectedMarker?.mapPoint?.mapPointGeoCoord?.latitude.toString()
             val content = binding.etWriteContent.text.toString()
 
-            if (title.isNotEmpty()&&category.isNotEmpty()&&date.isNotEmpty()&&placeName != null&&x.isNotEmpty()&&y.isNotEmpty()) {
+            if (title.isNotEmpty()&&date.isNotEmpty()&&placeName != null&&x.isNotEmpty()&&y.isNotEmpty()) {
                 viewModel.addPost(title, category, type, date, MarkerPlace(placeName, x, y), content)
             } else {
                 // 빈칸 조건에 따른 처리 예정

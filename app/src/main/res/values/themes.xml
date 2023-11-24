@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.SportsMatch" parent="Base.Theme.SportsMatch" />
+    <style name="TabTextSmallLetter" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
 </resources>

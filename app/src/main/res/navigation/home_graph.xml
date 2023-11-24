@@ -30,6 +30,12 @@
         android:name="com.young.sportsmatch.ui.write.WriteFragment"
         android:label="@string/label_write_destination"
         tools:layout="@layout/fragment_write"/>
+
+    <fragment
+        android:id="@+id/navigation_post_list"
+        android:name="com.young.sportsmatch.ui.home.CategoryPostListFragment"
+        android:label="@string/label_post_list_destination" />
+
     <action
         android:id="@+id/action_global_write"
         app:destination="@+id/navigaion_write" />

@@ -27,4 +27,5 @@
     <string name="write_content_hint">내용을 적어주세요.</string>
     <string name="label_main_destination">HomeActivity</string>
     <string name="label_write_destination">WriteFragment</string>
+    <string name="label_post_list_destination">CategoryPostListFragment</string>
 </resources>

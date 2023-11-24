@@ -25,10 +25,14 @@ interface ApiClient {
         @Body user: User,
     ): ApiResponse<Map<String, String>>
 
-    @POST("post/{userId}.json")
+    @POST("post.json")
     suspend fun addPost(
-        @Path("userId") userId: String,
         @Query("auth") auth: String,
         @Body post: Post,
     ): ApiResponse<Map<String, String>>
+
+    @GET("post.json")
+    suspend fun getPostList(
+        @Query("auth") auth: String,
+    ): ApiResponse<Map<String, Post>>
 }

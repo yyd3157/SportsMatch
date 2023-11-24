@@ -45,7 +45,7 @@ class SettingRepository @Inject constructor(
         onComplete()
     }.flowOn(Dispatchers.Default)
 
-    suspend fun getUser(
+    fun getUser(
         onComplete: () -> Unit,
         onError: (message: String?) -> Unit,
     ): Flow<ApiResponse<User>> = flow {
