@@ -42,7 +42,7 @@ class PostListAdapter(private val onItemClick: (Post) -> Unit, private val viewM
             itemView.setOnClickListener {
                 onItemClick(post)
             }
-            updateBookmarkButtonIcon(post.content)
+            updateBookmarkButtonIcon(post.hashCode().toString())
         }
 
         fun updateBookmarkButtonIcon(postId: String) {

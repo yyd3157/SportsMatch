@@ -1,6 +1,5 @@
 package com.young.sportsmatch.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.young.sportsmatch.data.model.Category
@@ -61,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateBookmarkPost(post: Post, category: String) {
         val latestBookmarkStatus = _bookmarkStatus.value ?: mutableMapOf()
-        val isBookmarked = latestBookmarkStatus[post.content] ?: false
+        val isBookmarked = latestBookmarkStatus[post.hashCode().toString()] ?: false
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -71,7 +70,7 @@ class HomeViewModel @Inject constructor(
                     bookmarkRepository.addBookmarkPost(post, category)
                 }
             }
-            latestBookmarkStatus[post.content] = !isBookmarked
+            latestBookmarkStatus[post.hashCode().toString()] = !isBookmarked
             _bookmarkStatus.value = latestBookmarkStatus
         }
     }
@@ -82,7 +81,7 @@ class HomeViewModel @Inject constructor(
             val bookmarkStatusMap = mutableMapOf<String, Boolean>()
 
             for (bookmark in bookmarkList) {
-                bookmarkStatusMap[bookmark.post.content] = true
+                bookmarkStatusMap[bookmark.post.hashCode().toString()] = true
             }
 
             for ((postId, _) in _items.value ?: emptyMap()) {
