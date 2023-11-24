@@ -9,7 +9,6 @@ class HomePagerStateAdapter(
     private val category: List<Category>
 ) : FragmentStateAdapter(fragment) {
 
-
     override fun getItemCount(): Int {
         return category.size
     }

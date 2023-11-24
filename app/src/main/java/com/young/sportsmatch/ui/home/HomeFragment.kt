@@ -17,7 +17,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val homeCategories = Category.values().toList()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
