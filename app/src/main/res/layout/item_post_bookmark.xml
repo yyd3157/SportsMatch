@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="postList"
+            type="com.young.sportsmatch.data.model.Post" />
+
+        <variable
+            name="viewModel"
+            type="com.young.sportsmatch.ui.home.HomeViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_home_post"
+            android:layout_width="170dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/layout_post_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_default_picture"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{postList.user.nickName}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
+                app:layout_constraintStart_toStartOf="@id/iv_profile_image"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
+
+            <TextView
+                android:id="@+id/tv_bookmark_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="@{postList.type}"
+                android:textSize="11sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_image" />
+
+            <TextView
+                android:id="@+id/tv_bookmark_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{postList.date}"
+                android:textSize="11sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_bookmark_type"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bookmark_type" />
+
+            <TextView
+                android:id="@+id/tv_bookmark_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{postList.markerPlace.place_name}"
+                android:textSize="11sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_bookmark_data"
+                app:layout_constraintTop_toBottomOf="@+id/tv_bookmark_data" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
