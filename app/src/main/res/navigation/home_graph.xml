@@ -12,9 +12,9 @@
         tools:layout="@layout/activity_home" />
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.young.sportsmatch.ui.favorites.FavoritesFragment"
+        android:name="com.young.sportsmatch.ui.bookmark.BookmarkFragment"
         android:label="@string/label_favorites_destination"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.young.sportsmatch.ui.home.HomeFragment"
