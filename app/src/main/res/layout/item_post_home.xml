@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="postList"
             type="com.young.sportsmatch.data.model.Post" />
+
+        <variable
+            name="viewModel"
+            type="com.young.sportsmatch.ui.home.HomeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,13 +96,14 @@
 
             <ImageView
                 android:id="@+id/iv_home_favorites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/selector_favorites_menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> viewModel.updateBookmarkPost(postList, postList.category)}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
