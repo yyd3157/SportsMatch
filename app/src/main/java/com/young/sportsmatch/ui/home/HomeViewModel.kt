@@ -1,5 +1,6 @@
 package com.young.sportsmatch.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.young.sportsmatch.data.model.Category
@@ -70,8 +71,15 @@ class HomeViewModel @Inject constructor(
                     bookmarkRepository.addBookmarkPost(post, category)
                 }
             }
-            latestBookmarkStatus[post.hashCode().toString()] = !isBookmarked
-            _bookmarkStatus.value = latestBookmarkStatus
+            Log.d("DetailFragment", "Before loadBookmarkState")
+            loadBookmarkState()
+            Log.d("DetailFragment", "After loadBookmarkState")
+
+            withContext(Dispatchers.Main) {
+                latestBookmarkStatus[post.hashCode().toString()] = !isBookmarked
+                _bookmarkStatus.value = latestBookmarkStatus
+                Log.d("DetailFragment", "Bookmark status updated: ${_bookmarkStatus.value}")
+            }
         }
     }
 
@@ -88,6 +96,7 @@ class HomeViewModel @Inject constructor(
                 bookmarkStatusMap.putIfAbsent(postId, false)
             }
             _bookmarkStatus.value = bookmarkStatusMap
+            Log.d("DetailFragment2", "Bookmark status loaded: ${_bookmarkStatus.value}")
         }
     }
 }

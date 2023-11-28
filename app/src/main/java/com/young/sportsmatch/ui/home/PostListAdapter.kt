@@ -48,12 +48,7 @@ class PostListAdapter(private val onItemClick: (Post) -> Unit, private val viewM
         fun updateBookmarkButtonIcon(postId: String) {
             val bookmarkStatus = viewModel.bookmarkStatus.value
             val isBookmarked = bookmarkStatus?.get(postId) ?: false
-            val iconResId = if (isBookmarked) {
-                R.drawable.ic_selected_bookmark
-            } else {
-                R.drawable.ic_bookmark
-            }
-            binding.ivHomeFavorites.setImageResource(iconResId)
+            binding.ivHomeFavorites.isSelected = isBookmarked
         }
 
         companion object {

@@ -52,13 +52,16 @@ class DetailFragment : Fragment() {
         mapView = MapView(requireActivity())
         binding.rlDetailLocationImg.addView(mapView)
         setLayout()
+        viewModel.loadBookmarkState()
         lifecycleScope.launch {
+            Log.d("DetailFragment", "Start collecting bookmarkStatus")
             viewModel.bookmarkStatus.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED).collect { posts ->
-                viewModel.loadBookmarkState()
                 Log.d("DetailFragment", "Bookmark status changed: $posts")
                 val isBookmark = posts.get(args.post.hashCode().toString()) ?: false
+                Log.d("DetailFragment1", "isBookmark: $isBookmark")
                 binding.ivDetailFavorites.isSelected = isBookmark
             }
+            Log.d("DetailFragment", "Stop collecting bookmarkStatus")
         }
     }
 
