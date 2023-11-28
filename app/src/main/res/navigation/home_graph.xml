@@ -12,9 +12,9 @@
         tools:layout="@layout/activity_home" />
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.young.sportsmatch.ui.favorites.FavoritesFragment"
+        android:name="com.young.sportsmatch.ui.bookmark.BookmarkFragment"
         android:label="@string/label_favorites_destination"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.young.sportsmatch.ui.home.HomeFragment"
@@ -36,8 +36,17 @@
         android:name="com.young.sportsmatch.ui.home.CategoryPostListFragment"
         android:label="@string/label_post_list_destination" />
 
+    <fragment
+        android:id="@+id/navigation_detail"
+        android:name="com.young.sportsmatch.ui.detail.DetailFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="post"
+            app:argType="com.young.sportsmatch.data.model.Post" />
+    </fragment>
+
     <action
-        android:id="@+id/action_global_write"
-        app:destination="@+id/navigaion_write" />
+        android:id="@+id/action_global_detail"
+        app:destination="@+id/navigation_detail" />
 
 </navigation>

@@ -13,21 +13,22 @@ import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.databinding.ItemPostHomeBinding
 import com.young.sportsmatch.ui.common.PostsDiff
 
-class PostListAdapter(private val onItemClick: (Post) -> Unit) : ListAdapter<Post, PostListAdapter.ViewHolder>(PostsDiff()) {
+class PostListAdapter(private val onItemClick: (Post) -> Unit, private val viewModel: HomeViewModel) : ListAdapter<Post, PostListAdapter.ViewHolder>(PostsDiff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(parent, viewModel)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position), onItemClick)
     }
 
-    class ViewHolder(private val binding: ItemPostHomeBinding) :
+    class ViewHolder(private val binding: ItemPostHomeBinding, private val viewModel: HomeViewModel) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post, onItemClick: (Post) -> Unit) {
             binding.postList = post
+            binding.viewModel = viewModel
             val imageUrl = post.user.imageUrl
             val storageReference: StorageReference = FirebaseStorage.getInstance().reference
             val imageRef = storageReference.child(imageUrl)
@@ -41,16 +42,28 @@ class PostListAdapter(private val onItemClick: (Post) -> Unit) : ListAdapter<Pos
             itemView.setOnClickListener {
                 onItemClick(post)
             }
+            updateBookmarkButtonIcon(post.hashCode().toString())
+        }
+
+        fun updateBookmarkButtonIcon(postId: String) {
+            val bookmarkStatus = viewModel.bookmarkStatus.value
+            val isBookmarked = bookmarkStatus?.get(postId) ?: false
+            val iconResId = if (isBookmarked) {
+                R.drawable.ic_selected_bookmark
+            } else {
+                R.drawable.ic_bookmark
+            }
+            binding.ivHomeFavorites.setImageResource(iconResId)
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup, viewModel: HomeViewModel): ViewHolder {
                 val binding = ItemPostHomeBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return ViewHolder(binding)
+                return ViewHolder(binding, viewModel)
             }
         }
     }

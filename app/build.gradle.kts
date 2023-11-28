@@ -6,6 +6,7 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 val properties = Properties()
@@ -62,6 +63,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
+    implementation("androidx.room:room-common:2.6.0")
+    kapt("androidx.room:room-compiler:2.6.0")
 
     // 테스트 관련 라이브러리
     testImplementation("junit:junit:4.13.2")
@@ -102,6 +105,11 @@ dependencies {
     // 로컬 라이브러리
     implementation(fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
     implementation(files("libs/libDaumMapAndroid.jar"))
+
+    // 데이터 베이스 room라이브러리
+    implementation ("androidx.room:room-ktx:2.6.0")
+    implementation ("androidx.room:room-runtime:2.6.0")
+    implementation ("com.google.code.gson:gson:2.9.0")
 }
 
 kapt {
