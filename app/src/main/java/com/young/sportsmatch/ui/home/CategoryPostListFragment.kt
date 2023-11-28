@@ -9,9 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.young.sportsmatch.data.model.Category
 import com.young.sportsmatch.data.model.Constants
+import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.databinding.FragmentHomeCategoryBinding
+import com.young.sportsmatch.ui.detail.DetailFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -46,7 +49,7 @@ class CategoryPostListFragment : Fragment() {
         val category = arguments?.getSerializable(Constants.ARG_CATEGORY) as? Category
         if (category != null) {
             val adapter = PostListAdapter({ post ->
-                // 클릭 이벤트 처리
+                navigateToDetail(post)
             }, viewModel)
             binding.rvPostList.adapter = adapter
             viewModel.onCategorySelected(category)
@@ -59,6 +62,11 @@ class CategoryPostListFragment : Fragment() {
                     }
             }
         }
+    }
+
+    private fun navigateToDetail(post: Post) {
+        val action = DetailFragmentDirections.actionGlobalDetail(post)
+        findNavController().navigate(action)
     }
 
     companion object {

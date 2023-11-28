@@ -1,5 +1,6 @@
 package com.young.sportsmatch.ui.bookmark
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.young.sportsmatch.databinding.ItemBookmarkSectionPostListBinding
 import com.young.sportsmatch.ui.home.HomeViewModel
 
 class BookmarkListAdapter(
-    private val onItemClick: (BookmarkEntity?, Category?) -> Unit,
+    private val onItemClick: (BookmarkEntity?) -> Unit,
     private val viewModel: HomeViewModel
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -62,18 +63,18 @@ class BookmarkListAdapter(
 
     class BookMarkSectionArticleViewHolder(
         private val binding: ItemBookmarkSectionPostListBinding,
-        onItemClick: (BookmarkEntity?, Category?) -> Unit,
+        onItemClick: (BookmarkEntity?) -> Unit,
         private val viewModel: HomeViewModel,
         private val bookMarkList: List<BookMarkItem>
     ) : RecyclerView.ViewHolder(binding.root) {
         private var adapter = BookmarkAdapter(viewModel) { bookmarkEntity ->
-            onItemClick(bookmarkEntity, getCategory(adapterPosition))
+            onItemClick(bookmarkEntity)
         }
 
         init {
             binding.rvBookmarkPostSection.adapter = adapter
             itemView.setOnClickListener {
-                onItemClick(getBookmarkEntity(adapterPosition), getCategory(adapterPosition))
+                onItemClick(getBookmarkEntity(adapterPosition))
             }
         }
 
@@ -90,16 +91,6 @@ class BookmarkListAdapter(
                     if (bookMarkList.isNotEmpty()) {
                         return bookMarkList[0]
                     }
-                }
-            }
-            return null
-        }
-
-        private fun getCategory(position: Int): Category? {
-            if (position >= 0 && position < bookMarkList.size) {
-                val section = bookMarkList[position]
-                if (section is BookMarkItem.BookMarkSection) {
-                    return Category.valueOf(section.id)
                 }
             }
             return null

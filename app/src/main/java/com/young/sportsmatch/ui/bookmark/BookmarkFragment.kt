@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.database.BookmarkDao
 import com.young.sportsmatch.database.BookmarkDatabase
 import com.young.sportsmatch.databinding.FragmentBookmarkBinding
+import com.young.sportsmatch.ui.detail.DetailFragmentDirections
 import com.young.sportsmatch.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,13 +42,14 @@ class BookmarkFragment : Fragment() {
     }
 
     override fun onResume() {
-        super.onResume()
         setLayout()
+        super.onResume()
     }
 
     private fun setLayout() {
-        adapter = BookmarkListAdapter({ _, _ ->
-            // 클릭 이벤트 처리
+        adapter = BookmarkListAdapter({ posts ->
+            val post = posts!!.post
+            navigateToDetail(post)
         }, viewModel)
         binding.rvSaved.adapter = adapter
 
@@ -54,6 +58,11 @@ class BookmarkFragment : Fragment() {
             Log.d("bookmark123","$response")
             adapter.submitList(response)
         }
+    }
+
+    private fun navigateToDetail(post: Post) {
+        val action = DetailFragmentDirections.actionGlobalDetail(post)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
