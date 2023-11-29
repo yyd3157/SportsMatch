@@ -1,6 +1,5 @@
 package com.young.sportsmatch.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.young.sportsmatch.data.model.Category
@@ -9,11 +8,9 @@ import com.young.sportsmatch.data.source.BookmarkRepository
 import com.young.sportsmatch.data.source.HomeRepository
 import com.young.sportsmatch.network.model.ApiResultSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +30,9 @@ class HomeViewModel @Inject constructor(
 
     private val _bookmarkStatus = MutableStateFlow<MutableMap<String, Boolean>>(mutableMapOf())
     val bookmarkStatus: StateFlow<MutableMap<String, Boolean>> = _bookmarkStatus
+
+    private val _selectedPostIsBookmarked = MutableStateFlow<Boolean?>(null)
+    val selectedPostIsBookmarked: StateFlow<Boolean?> = _selectedPostIsBookmarked
 
     fun onCategorySelected(category: Category) {
         _selectedCategory.value = category.value.toString()
@@ -60,26 +60,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateBookmarkPost(post: Post, category: String) {
-        val latestBookmarkStatus = _bookmarkStatus.value ?: mutableMapOf()
+        val latestBookmarkStatus = _bookmarkStatus.value
         val isBookmarked = latestBookmarkStatus[post.hashCode().toString()] ?: false
-
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                if (isBookmarked) {
-                    bookmarkRepository.removeBookmarkPost(post)
-                } else {
-                    bookmarkRepository.addBookmarkPost(post, category)
-                }
+            if (isBookmarked) {
+                bookmarkRepository.removeBookmarkPost(post)
+            } else {
+                bookmarkRepository.addBookmarkPost(post, category)
             }
-            Log.d("DetailFragment", "Before loadBookmarkState")
-            loadBookmarkState()
-            Log.d("DetailFragment", "After loadBookmarkState")
-
-            withContext(Dispatchers.Main) {
-                latestBookmarkStatus[post.hashCode().toString()] = !isBookmarked
-                _bookmarkStatus.value = latestBookmarkStatus
-                Log.d("DetailFragment", "Bookmark status updated: ${_bookmarkStatus.value}")
-            }
+            post.isBookmarked = !isBookmarked
+            latestBookmarkStatus[post.hashCode().toString()] = !isBookmarked
+            _bookmarkStatus.value = latestBookmarkStatus
+            _selectedPostIsBookmarked.value = post.isBookmarked
         }
     }
 
@@ -92,11 +84,10 @@ class HomeViewModel @Inject constructor(
                 bookmarkStatusMap[bookmark.post.hashCode().toString()] = true
             }
 
-            for ((postId, _) in _items.value ?: emptyMap()) {
+            _items.value?.forEach { (postId, _) ->
                 bookmarkStatusMap.putIfAbsent(postId, false)
             }
             _bookmarkStatus.value = bookmarkStatusMap
-            Log.d("DetailFragment2", "Bookmark status loaded: ${_bookmarkStatus.value}")
         }
     }
 }
