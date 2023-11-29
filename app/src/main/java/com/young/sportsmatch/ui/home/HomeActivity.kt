@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.young.sportsmatch.R
@@ -30,6 +31,11 @@ class HomeActivity : AppCompatActivity() {
             navigateToWrite()
         }
 
+        binding.ivBack.setOnClickListener {
+            val navController = supportFragmentManager.findFragmentById(R.id.home_container)?.findNavController()
+            navController?.popBackStack()
+        }
+
         val navController =
             supportFragmentManager.findFragmentById(R.id.home_container)?.findNavController()
         navController?.let {
@@ -42,12 +48,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun navigateToWrite() {
-        replaceFragment(WriteFragment())
-    }
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.home_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        val navController = findNavController(R.id.home_container)
+        navController.navigate(R.id.navigaion_write)
     }
 }

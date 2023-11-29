@@ -100,11 +100,14 @@ class DetailFragment : Fragment() {
     private fun hideActivityMenu(boolean: Boolean) {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
+        val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
         if (boolean){
             bottomNavigation?.visibility = View.GONE
+            backButton?.visibility = View.VISIBLE
             writeButton?.hide()
         } else {
             bottomNavigation?.visibility = View.VISIBLE
+            backButton?.visibility = View.GONE
             writeButton?.show()
         }
     }

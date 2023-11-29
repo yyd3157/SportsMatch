@@ -2,12 +2,12 @@ package com.young.sportsmatch.ui.setting
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivitySettingBinding
+import com.young.sportsmatch.ui.home.HomeActivity
 import com.young.sportsmatch.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,6 +43,10 @@ class SettingActivity : AppCompatActivity() {
         observeUserInfo()
         submit()
         logout()
+
+        binding.ivBack.setOnClickListener {
+            moveToHome()
+        }
     }
 
     private fun submit() {
@@ -52,6 +57,7 @@ class SettingActivity : AppCompatActivity() {
             val nickname = binding.etNickName.text.toString()
             if (nickname.isNotEmpty()) {
                 viewModel.addUser(nickname)
+                showToast(getString(R.string.profile_change_succeed))
             } else {
                 // 닉네임 조건에 따른 처리 예정
             }
@@ -115,5 +121,10 @@ class SettingActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun moveToHome() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 }
