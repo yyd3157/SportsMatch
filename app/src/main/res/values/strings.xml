@@ -5,6 +5,7 @@
     <string name="complete">완 료</string>
     <string name="logout">로그아웃</string>
     <string name="logout_succeed">로그아웃 되었습니다.</string>
+    <string name="profile_change_succeed">프로필이 변경되었습니다.</string>
     <string name="label_map_destination">지도</string>
     <string name="label_home_destination">홈</string>
     <string name="label_favorites_destination">즐겨찾기</string>
