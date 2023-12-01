@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.FragmentMapBinding
+import com.young.sportsmatch.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
@@ -25,7 +26,8 @@ class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
-    private val viewModel: MapViewModel by viewModels()
+    private val mapViewModel: MapViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,8 +56,8 @@ class MapFragment : Fragment() {
 
     private fun getPostMap() {
         lifecycleScope.launch {
-            viewModel.getPostList()
-            viewModel.items.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            mapViewModel.getPostList()
+            mapViewModel.items.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { response ->
                     if (response != null) {
                         for ((key, post) in response) {
@@ -78,16 +80,17 @@ class MapFragment : Fragment() {
     }
 
     private fun setLayout() {
-        val adapter = MapListAdapter { post ->
+        homeViewModel.loadBookmarkState()
+        val adapter = MapListAdapter ({ post ->
             val selectPlace = post.markerPlace
             mapView.setMapCenterPointAndZoomLevel(
                 MapPoint.mapPointWithGeoCoord(selectPlace.y.toDouble(), selectPlace.x.toDouble()), 4, true
             )
-        }
+        }, homeViewModel)
         binding.rvMap.adapter = adapter
-        viewModel.getPostList()
+        mapViewModel.getPostList()
         lifecycleScope.launch {
-            viewModel.items.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            mapViewModel.items.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { post ->
                     val allPostList = post?.values?.toList()
                     adapter.submitList(allPostList)
