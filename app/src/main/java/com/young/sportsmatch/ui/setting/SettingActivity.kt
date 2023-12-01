@@ -18,7 +18,6 @@ import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
 import com.young.sportsmatch.databinding.ActivitySettingBinding
 import com.young.sportsmatch.ui.home.HomeActivity
-import com.young.sportsmatch.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,7 +41,6 @@ class SettingActivity : AppCompatActivity() {
 
         observeUserInfo()
         submit()
-        logout()
 
         binding.ivBack.setOnClickListener {
             moveToHome()
@@ -76,46 +74,30 @@ class SettingActivity : AppCompatActivity() {
     private fun observeUserInfo() {
         lifecycleScope.launch {
             viewModel.getUser()
-            viewModel.userInfo.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { user ->
-                if (user != null && !userLoaded) {
-                    userLoaded = true
-                    val nickName = user.nickName
-                    val imageUrl = user.imageUrl
-                    val storageReference: StorageReference = FirebaseStorage.getInstance().reference
-                    val imageRef = storageReference.child(imageUrl)
-                    imageRef.downloadUrl.addOnSuccessListener { uri ->
-                        Log.d("ImageLoad", "Image URL: $uri")
-                        binding.ivProfileImage.load(uri) {
-                            transformations(CircleCropTransformation())
-                            placeholder(R.drawable.ic_default_picture)
-                            error(R.drawable.ic_default_picture)
+            viewModel.userInfo.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { user ->
+                    if (user != null && !userLoaded) {
+                        userLoaded = true
+                        val nickName = user.nickName
+                        val imageUrl = user.imageUrl
+                        val storageReference: StorageReference =
+                            FirebaseStorage.getInstance().reference
+                        val imageRef = storageReference.child(imageUrl)
+                        imageRef.downloadUrl.addOnSuccessListener { uri ->
+                            Log.d("ImageLoad", "Image URL: $uri")
+                            binding.ivProfileImage.load(uri) {
+                                transformations(CircleCropTransformation())
+                                placeholder(R.drawable.ic_default_picture)
+                                error(R.drawable.ic_default_picture)
+                            }
+                        }.addOnFailureListener { e ->
+                            Log.e("FirebaseStorage", "Error getting download URL: $e")
                         }
-                    }.addOnFailureListener { e ->
-                        Log.e("FirebaseStorage", "Error getting download URL: $e")
-                    }
-                    binding.etNickName.setText(nickName)
-                } else {
-                    // 사용자 정보를 가져오지 못한 경우에 대한 처리
-                }
-            }
-        }
-
-}
-
-    private fun logout() {
-        binding.btnLogout.setOnClickListener {
-            viewModel.logout()
-            lifecycleScope.launch {
-                viewModel.logout.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { isSuccess ->
-                    if (isSuccess) {
-                        showToast(getString(R.string.logout_succeed))
-                        startActivity(Intent(this@SettingActivity, LoginActivity::class.java))
-                        finish()
+                        binding.etNickName.setText(nickName)
                     } else {
-
+                        // 사용자 정보를 가져오지 못한 경우에 대한 처리
                     }
                 }
-            }
         }
     }
 
