@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,9 +17,11 @@ import coil.transform.CircleCropTransformation
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
+import com.young.sportsmatch.data.model.Constants
 import com.young.sportsmatch.databinding.ActivitySettingBinding
 import com.young.sportsmatch.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,6 +43,7 @@ class SettingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         observeUserInfo()
+        showLoadingState()
         submit()
 
         binding.ivBack.setOnClickListener {
@@ -53,12 +57,7 @@ class SettingActivity : AppCompatActivity() {
         }
         binding.btnAddUser.setOnClickListener {
             val nickname = binding.etNickName.text.toString()
-            if (nickname.isNotEmpty()) {
-                viewModel.addUser(nickname)
-                showToast(getString(R.string.profile_change_succeed))
-            } else {
-                // 닉네임 조건에 따른 처리 예정
-            }
+            viewModel.addUser(nickname)
         }
     }
 
@@ -108,5 +107,20 @@ class SettingActivity : AppCompatActivity() {
     private fun moveToHome() {
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
+    }
+
+    private fun showLoadingState() {
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { state ->
+                if (state) {
+                    binding.workingProgressIndicator.visibility = View.VISIBLE
+                    delay(Constants.DELAY_DURATION)
+                    showToast(getString(R.string.profile_change_succeed))
+                    moveToHome()
+                } else {
+                    binding.workingProgressIndicator.visibility = View.GONE
+                }
+            }
+        }
     }
 }

@@ -1,18 +1,14 @@
 package com.young.sportsmatch.ui.write
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.data.model.SearchPlaceList
 import com.young.sportsmatch.data.source.WriteRepository
-import com.young.sportsmatch.network.model.ApiResultError
-import com.young.sportsmatch.network.model.ApiResultException
 import com.young.sportsmatch.network.model.ApiResultSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +19,8 @@ class WriteViewModel @Inject constructor(
 
     private val _searchMap = MutableStateFlow<SearchPlaceList?>(null)
     val searchMap: StateFlow<SearchPlaceList?> = _searchMap
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun getMap(searchText: String) {
         viewModelScope.launch {
@@ -48,8 +46,9 @@ class WriteViewModel @Inject constructor(
         content: String
     ) {
         viewModelScope.launch {
+            _isLoading.value = true
             repository.addPost(
-                onComplete = { },
+                onComplete = { _isLoading.value = false },
                 onError = { },
                 title,
                 category,

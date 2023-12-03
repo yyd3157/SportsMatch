@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.young.sportsmatch.R
@@ -53,6 +54,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         hideActivityMenu(true)
         mapView.setPOIItemEventListener(this)
         searchMap()
+        showLoadingState()
         submit()
         setUpSportsTypeSpinner()
         setUpTypeSpinner()
@@ -198,5 +200,23 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         spinner.adapter = adapter
+    }
+
+    private fun navigationToHome() {
+        val action = WriteFragmentDirections.actionGlobalHome()
+        findNavController().navigate(action)
+    }
+
+    private fun showLoadingState() {
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { state ->
+                if (state) {
+                    binding.workingProgressIndicator.visibility = View.VISIBLE
+                    navigationToHome()
+                } else {
+                    binding.workingProgressIndicator.visibility = View.GONE
+                }
+            }
+        }
     }
 }

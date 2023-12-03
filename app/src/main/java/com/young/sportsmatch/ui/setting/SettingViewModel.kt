@@ -1,21 +1,15 @@
 package com.young.sportsmatch.ui.setting
 
 import android.net.Uri
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.young.sportsmatch.data.model.User
 import com.young.sportsmatch.data.source.SettingRepository
-import com.young.sportsmatch.network.model.ApiResultError
-import com.young.sportsmatch.network.model.ApiResultException
 import com.young.sportsmatch.network.model.ApiResultSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,11 +24,14 @@ class SettingViewModel @Inject constructor(
     val logout: StateFlow<Boolean> = _logout
     private val _userInfo = MutableStateFlow<User?>(null)
     val userInfo: StateFlow<User?> = _userInfo
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun addUser(nickname: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             repository.addUser(
-                onComplete = { },
+                onComplete = { _isLoading.value = false },
                 onError = { },
                 nickname,
                 imageUrl.toString(),
