@@ -77,12 +77,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_nickName"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
             android:hint="@string/nick_name_hint"
             android:inputType="text"
             android:textColor="@color/black"
             android:textColorHint="@color/grey_100"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,5 +99,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.young.sportsmatch.ui.common.DialogIndicatorView
+        android:id="@+id/working_progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
