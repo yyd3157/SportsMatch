@@ -5,13 +5,14 @@
     <string name="complete">완 료</string>
     <string name="logout">로그아웃</string>
     <string name="logout_succeed">로그아웃 되었습니다.</string>
-    <string name="modified_profile">프로필 수정</string>
-    <string name="profile_change_succeed">프로필이 변경되었습니다.</string>
+    <string name="modified_profile">프로필 설정</string>
+    <string name="profile_change_succeed">프로필이 설정되었습니다.</string>
     <string name="label_map_destination">지도</string>
     <string name="label_home_destination">홈</string>
     <string name="label_favorites_destination">즐겨찾기</string>
     <string name="title">제목</string>
     <string name="category">카테고리</string>
+    <string name="type">타입</string>
     <string name="time">시간</string>
     <string name="location">장소</string>
     <string name="category_hint">카테고리를 선택해주세요.</string>
@@ -24,10 +25,11 @@
     <string name="category_type_team_meet">팀원모집</string>
     <string name="category_type_edu">강습</string>
     <string name="write_location_hint">장소입력 후 오른쪽 아이콘을 클릭해주세요.</string>
-    <string name="write_date_hint">xxxx.xx.xx / 뒤에 시간을 적어주세요.</string>
+    <string name="write_date_hint">ex) xxxx.xx.xx / xx시</string>
     <string name="write_title_hint">제목을 입력해주세요.</string>
     <string name="write_content_hint">내용을 적어주세요.</string>
     <string name="label_main_destination">HomeActivity</string>
     <string name="label_write_destination">WriteFragment</string>
     <string name="label_post_list_destination">CategoryPostListFragment</string>
+    <string name="dialog_text">잠시만 기다려 주세요.</string>
 </resources>
