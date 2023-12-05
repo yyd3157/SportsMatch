@@ -29,7 +29,11 @@
         android:id="@+id/navigaion_write"
         android:name="com.young.sportsmatch.ui.write.WriteFragment"
         android:label="@string/label_write_destination"
-        tools:layout="@layout/fragment_write"/>
+        tools:layout="@layout/fragment_write">
+        <action
+            android:id="@+id/action_write_to_dialog"
+            app:destination="@+id/navigation_dialog" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_post_list"
@@ -48,5 +52,9 @@
     <action
         android:id="@+id/action_global_detail"
         app:destination="@+id/navigation_detail" />
+
+    <action
+        android:id="@+id/action_global_home"
+        app:destination="@id/homeActivity" />
 
 </navigation>

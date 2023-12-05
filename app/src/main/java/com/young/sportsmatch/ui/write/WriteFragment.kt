@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.young.sportsmatch.R
@@ -52,6 +54,7 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         hideActivityMenu(true)
         mapView.setPOIItemEventListener(this)
         searchMap()
+        showLoadingState()
         submit()
         setUpSportsTypeSpinner()
         setUpTypeSpinner()
@@ -65,10 +68,13 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
     private fun hideActivityMenu(boolean: Boolean) {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
+        val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
         if (boolean){
+            backButton?.visibility = View.VISIBLE
             bottomNavigation?.visibility = View.GONE
             writeButton?.hide()
         } else {
+            backButton?.visibility = View.GONE
             bottomNavigation?.visibility = View.VISIBLE
             writeButton?.show()
         }
@@ -194,5 +200,23 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         spinner.adapter = adapter
+    }
+
+    private fun navigationToHome() {
+        val action = WriteFragmentDirections.actionGlobalHome()
+        findNavController().navigate(action)
+    }
+
+    private fun showLoadingState() {
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { state ->
+                if (state) {
+                    binding.workingProgressIndicator.visibility = View.VISIBLE
+                    navigationToHome()
+                } else {
+                    binding.workingProgressIndicator.visibility = View.GONE
+                }
+            }
+        }
     }
 }

@@ -11,7 +11,9 @@ data class Post(
     val date: String,
     var markerPlace: MarkerPlace,
     val content: String,
-): java.io.Serializable
+): java.io.Serializable {
+    var isBookmarked = false
+}
 
 @JsonClass(generateAdapter = true)
 data class MarkerPlace(

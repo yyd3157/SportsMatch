@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.database.BookmarkDao
 import com.young.sportsmatch.database.BookmarkDatabase
@@ -38,6 +40,7 @@ class BookmarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideActivityMenu()
         bookmarkDao = BookmarkDatabase.getDatabase(requireContext()).bookmarkDao()
     }
 
@@ -68,5 +71,10 @@ class BookmarkFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun hideActivityMenu() {
+        val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
+        backButton?.visibility = View.GONE
     }
 }

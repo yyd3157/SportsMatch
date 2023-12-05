@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.tabs.TabLayoutMediator
+import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.Category
 import com.young.sportsmatch.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +31,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        hideActivityMenu()
         val adapter = HomePagerStateAdapter(this, homeCategories)
         binding.homePager.adapter = adapter
 
@@ -40,5 +43,10 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun hideActivityMenu() {
+        val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
+        backButton?.visibility = View.GONE
     }
 }

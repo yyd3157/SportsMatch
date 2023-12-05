@@ -1,12 +1,11 @@
 package com.young.sportsmatch.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -19,10 +18,11 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
-import com.young.sportsmatch.data.model.Post
 import com.young.sportsmatch.databinding.FragmentDetailBinding
 import com.young.sportsmatch.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -33,7 +33,7 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var mapView: MapView
 
@@ -52,16 +52,19 @@ class DetailFragment : Fragment() {
         mapView = MapView(requireActivity())
         binding.rlDetailLocationImg.addView(mapView)
         setLayout()
+        viewModel.loadBookmarkState()
         lifecycleScope.launch {
-            viewModel.bookmarkStatus.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED).collect { posts ->
-                viewModel.loadBookmarkState()
-                Log.d("DetailFragment", "Bookmark status changed: $posts")
-                val isBookmark = posts.get(args.post.hashCode().toString()) ?: false
+            combine(
+                viewModel.bookmarkStatus.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED).distinctUntilChanged(),
+                viewModel.selectedPostIsBookmarked.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED).distinctUntilChanged()
+            ) { posts, isBookmarked ->
+                val combinedIsBookmark = posts[args.post.hashCode().toString()] ?: isBookmarked ?: false
+                combinedIsBookmark
+            }.collect { isBookmark ->
                 binding.ivDetailFavorites.isSelected = isBookmark
             }
         }
     }
-
 
     private fun setLayout() {
         val post = args.post
@@ -97,11 +100,14 @@ class DetailFragment : Fragment() {
     private fun hideActivityMenu(boolean: Boolean) {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
+        val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
         if (boolean){
             bottomNavigation?.visibility = View.GONE
+            backButton?.visibility = View.VISIBLE
             writeButton?.hide()
         } else {
             bottomNavigation?.visibility = View.VISIBLE
+            backButton?.visibility = View.GONE
             writeButton?.show()
         }
     }

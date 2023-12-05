@@ -7,6 +7,11 @@
         <variable
             name="postList"
             type="com.young.sportsmatch.data.model.Post" />
+
+        <variable
+            name="viewModel"
+            type="com.young.sportsmatch.ui.home.HomeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,7 +70,6 @@
                     android:id="@+id/tv_map_post_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
                     android:text="@{postList.category}"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +92,6 @@
                     android:id="@+id/tv_map_post_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
                     android:text="@{postList.type}"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -123,7 +126,6 @@
                     android:id="@+id/tv_map_post_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
                     android:text="@{postList.date}"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -136,11 +138,11 @@
 
             <ImageView
                 android:id="@+id/iv_home_favorites"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/selector_bookmark_menu"
+                android:background="@drawable/selector_bookmark_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

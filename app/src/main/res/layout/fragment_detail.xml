@@ -15,166 +15,172 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_profile_image"
-            android:scaleType="centerCrop"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/ic_default_picture"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_nick_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@{post.user.nickName}"
-            app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
-            app:layout_constraintStart_toStartOf="@id/iv_profile_image"
-            app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_default_picture"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_detail_favorites"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:onClick="@{() -> viewModel.updateBookmarkPost(post, post.category)}"
-            android:background="@drawable/selector_bookmark_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{post.user.nickName}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/iv_profile_image"
+                app:layout_constraintStart_toStartOf="@id/iv_profile_image"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
 
-        <TextView
-            android:id="@+id/tv_detail_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="start|center"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:text="@{post.title}"
-            app:layout_constraintEnd_toStartOf="@+id/iv_detail_favorites"
-            app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile_image" />
+            <ImageView
+                android:id="@+id/iv_detail_favorites"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/selector_bookmark_menu"
+                android:onClick="@{() -> viewModel.updateBookmarkPost(post, post.category)}"
+                android:selected="@{post.isBookmarked}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view_category"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/green_400"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
+            <TextView
+                android:id="@+id/tv_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:text="@{post.title}"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_detail_favorites"
+                app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_profile_image" />
 
-        <TextView
-            android:id="@+id/tv_text_date"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@string/time"
-            android:layout_marginStart="70dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_category" />
+            <View
+                android:id="@+id/view_category"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/green_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
 
-        <TextView
-            android:id="@+id/tv_detail_date"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:gravity="start|center"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:text="@{post.date}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_text_date"
-            app:layout_constraintTop_toTopOf="@+id/tv_text_date" />
+            <TextView
+                android:id="@+id/tv_text_date"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="70dp"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_category" />
 
-        <View
-            android:id="@+id/view_date"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/green_400"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_date" />
+            <TextView
+                android:id="@+id/tv_detail_date"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:gravity="start|center"
+                android:text="@{post.date}"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_text_date"
+                app:layout_constraintTop_toTopOf="@+id/tv_text_date" />
 
-        <TextView
-            android:id="@+id/tv_text_location"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@string/location"
-            android:layout_marginStart="70dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_date" />
+            <View
+                android:id="@+id/view_date"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/green_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_date" />
 
-        <TextView
-            android:id="@+id/tv_detail_location"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:gravity="start|center"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:text="@{post.markerPlace.place_name}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_text_location"
-            app:layout_constraintTop_toTopOf="@+id/tv_text_location" />
+            <TextView
+                android:id="@+id/tv_text_location"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="70dp"
+                android:gravity="center"
+                android:text="@string/location"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_date" />
 
-        <View
-            android:id="@+id/view_location"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/green_400"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_location" />
+            <TextView
+                android:id="@+id/tv_detail_location"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:gravity="start|center"
+                android:text="@{post.markerPlace.place_name}"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_text_location"
+                app:layout_constraintTop_toTopOf="@+id/tv_text_location" />
 
-        <RelativeLayout
-            android:id="@+id/rl_detail_location_img"
-            android:layout_width="0dp"
-            android:layout_height="260dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_location" />
+            <View
+                android:id="@+id/view_location"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/green_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_location" />
 
-        <View
-            android:id="@+id/view_location_img"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/green_400"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rl_detail_location_img" />
+            <RelativeLayout
+                android:id="@+id/rl_detail_location_img"
+                android:layout_width="0dp"
+                android:layout_height="260dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_location" />
 
-        <TextView
-            android:id="@+id/tv_write_content"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@{post.content}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_location_img" />
+            <View
+                android:id="@+id/view_location_img"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/green_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rl_detail_location_img" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_write_content"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{post.content}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_location_img" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

@@ -36,7 +36,7 @@
                 android:scaleType="centerCrop"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_default_picture"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,22 +54,26 @@
 
             <TextView
                 android:id="@+id/tv_home_title"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:text="@{postList.title}"
-                android:textSize="15sp"
                 android:layout_marginStart="85dp"
                 android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{postList.title}"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="축구 할 사람 구합니다!" />
 
             <TextView
                 android:id="@+id/tv_home_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{postList.type}"
-                android:textSize="11sp"
-                android:layout_marginStart="95dp"
+                android:textSize="13sp"
+                tools:text="매칭 신청"
+                android:layout_marginStart="85dp"
                 android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_title" />
@@ -79,30 +83,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{postList.date}"
-                android:textSize="11sp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintStart_toStartOf="@+id/tv_home_type"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_type" />
+                android:textSize="13sp"
+                android:layout_marginEnd="35dp"
+                app:layout_constraintEnd_toStartOf="@+id/iv_home_favorites"
+                app:layout_constraintTop_toTopOf="@+id/tv_home_type"
+                tools:text="2023.12.25 / 1시" />
 
             <TextView
                 android:id="@+id/tv_home_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{postList.markerPlace.place_name}"
-                android:textSize="11sp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintStart_toStartOf="@+id/tv_home_data"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_data" />
+                android:text="@{postList.markerPlace.place_name}"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_home_type"
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_data"
+                tools:text="을산문수축구경기장" />
 
             <ImageView
                 android:id="@+id/iv_home_favorites"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/selector_bookmark_menu"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="@{() -> viewModel.updateBookmarkPost(postList, postList.category)}"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

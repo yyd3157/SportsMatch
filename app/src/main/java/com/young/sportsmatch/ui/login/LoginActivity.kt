@@ -1,19 +1,19 @@
 package com.young.sportsmatch.ui.login
 
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.auth.FirebaseAuth
@@ -38,116 +38,109 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         auth = Firebase.auth
+        checkUserLoginState()
+    }
 
-        autoLogin()
-
-        binding.btnLogin.setOnClickListener {
-            showOneTapUI()
+    private fun checkUserLoginState() {
+        val user = auth.currentUser
+        if (user != null) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        } else {
+            binding.btnLogin.setOnClickListener {
+                setSignInRequest()
+            }
         }
+    }
 
+    private fun setSignInRequest() {
         oneTapClient = Identity.getSignInClient(this)
-    }
-    private val oneTapSignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult()
-    ) { result ->
-        handleOneTapSignInResult(result)
-    }
-
-    private val legacySignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        handleLegacySignInResult(result)
-    }
-
-    private fun createdSignClient() {
         signInRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
-                    .setFilterByAuthorizedAccounts(true)
+                    .setFilterByAuthorizedAccounts(false)
                     .build()
-            )
-            .setAutoSelectEnabled(false)
-            .build()
+            ).build()
+        startGoogleSignIn()
     }
 
-    private fun handleOneTapSignInResult(result: ActivityResult) {
-        try {
-            val googleCredential = oneTapClient.getSignInCredentialFromIntent(result.data)
-            val idToken = googleCredential.googleIdToken
-            when {
-                idToken != null -> {
-                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                    auth.signInWithCredential(firebaseCredential)
-                        .addOnCompleteListener(this) { task ->
-                            if (task.isSuccessful) {
-                                moveToHome()
-                            } else {
-                                Log.w("sign", "signInWithCredential:failure", task.exception)
-                            }
-                        }
-                }
-                else -> {
-                    Log.d("sign", "No ID token!")
-                }
-            }
-        } catch (e: ApiException) {
-            displayLegacySignIn()
-        }
-    }
-
-    private fun handleLegacySignInResult(result: ActivityResult) {
-        if (result.resultCode == RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account?.idToken
-                if (idToken != null) {
-                    val credential = GoogleAuthProvider.getCredential(idToken, null)
-                    auth.signInWithCredential(credential)
-                        .addOnCompleteListener(this) { signInTask ->
-                            if (signInTask.isSuccessful) {
-                                moveToHome()
-                            } else {
-                                Log.w("sign", "signInWithCredential:failure", signInTask.exception)
-                            }
-                        }
-                } else {
-                    Log.d("sign", "No ID token!")
-                }
-            } catch (e: ApiException) {
-                Log.w("sign", "Google sign in failed", e)
-            }
-        }
-    }
-
-    private fun showOneTapUI() {
+    private fun startGoogleSignIn() {
         oneTapClient.beginSignIn(signInRequest)
             .addOnSuccessListener { result ->
                 try {
-                    oneTapSignInLauncher.launch(
+                    getResultLauncher.launch(
                         IntentSenderRequest
                             .Builder(result.pendingIntent.intentSender)
                             .build()
                     )
                 } catch (e: IntentSender.SendIntentException) {
-                    Log.e("SignInActivity", "Couldn't start One Tap UI: " + e.localizedMessage)
+                    showToast(getString(R.string.login_error))
                 }
             }
-            .addOnFailureListener { e ->
-                Log.e("SignInActivity", "One Tap sign-in failed: ${e.message}", e)
-                if (e is ApiException && e.statusCode == CommonStatusCodes.CANCELED) {
-                    displayLegacySignIn()
-                }
+            .addOnFailureListener(this) {
+                startGoogleSignUp()
             }
     }
 
-    private fun displayLegacySignIn() {
-        val googleSignInClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN)
-        val signInIntent = googleSignInClient.signInIntent
-        legacySignInLauncher.launch(signInIntent)
+    private fun startGoogleSignUp() {
+        val request = GetSignInIntentRequest.builder()
+            .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
+            .build()
+
+        Identity.getSignInClient(this)
+            .getSignInIntent(request)
+            .addOnSuccessListener { result ->
+                getResultLauncher.launch(
+                    IntentSenderRequest
+                        .Builder(result.intentSender)
+                        .build()
+                )
+            }
+            .addOnFailureListener { e ->
+                showToast(getString(R.string.login_login_failed_error))
+            }
+    }
+
+    private val getResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            try {
+                val idToken = oneTapClient.getSignInCredentialFromIntent(result.data).googleIdToken
+                if (idToken != null) {
+                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                    auth.signInWithCredential(firebaseCredential)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "signInWithCredential:success")
+                            } else {
+                                Log.w(TAG, "signInWithCredential:failure", task.exception)
+                            }
+                        }
+                    moveToHome()
+                } else {
+                    showToast(getString(R.string.login_token_error))
+                }
+            } catch (e: ApiException) {
+                when (e.statusCode) {
+                    CommonStatusCodes.CANCELED -> {
+                        showToast(getString(R.string.login_cancel))
+                    }
+
+                    CommonStatusCodes.NETWORK_ERROR -> {
+                        showToast(getString(R.string.login_network_error))
+                    }
+
+                    else -> {
+                        showToast(getString(R.string.login_unknown_error))
+                    }
+                }
+            }
+        }
     }
 
     private fun moveToHome() {
@@ -158,16 +151,5 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun autoLogin() {
-        val auth = FirebaseAuth.getInstance()
-        val user = auth.currentUser
-        if (user != null) {
-            moveToHome()
-        } else {
-            createdSignClient()
-
-        }
     }
 }
