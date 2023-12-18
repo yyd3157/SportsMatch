@@ -31,8 +31,8 @@ android {
         applicationId = "com.young.sportsmatch"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.3"
         setProperty("archivesBaseName", "${applicationId}-v${versionName}")
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties["google_client_id"] as String)
@@ -46,7 +46,8 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs["release"]
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -55,6 +56,7 @@ android {
             versionNameSuffix = "-release"
         }
         debug {
+            isMinifyEnabled = false
             isDebuggable = true
             versionNameSuffix = "-debug"
         }
