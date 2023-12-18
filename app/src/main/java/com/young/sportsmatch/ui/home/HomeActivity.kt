@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.ivSetting.setOnClickListener {
-            moveToSetting()
+            binding.dlHome.openDrawer(GravityCompat.END)
         }
 
         binding.writeButton.setOnClickListener {
@@ -44,14 +44,9 @@ class HomeActivity : AppCompatActivity() {
             navController?.popBackStack()
         }
 
-        val navController =
-            supportFragmentManager.findFragmentById(R.id.home_container)?.findNavController()
+        val navController = supportFragmentManager.findFragmentById(R.id.home_container)?.findNavController()
         navController?.let {
             binding.bottomNavigationView.setupWithNavController(it)
-        }
-
-        binding.ivSetting.setOnClickListener {
-            binding.dlHome.openDrawer(GravityCompat.END)
         }
 
         binding.nvSetting.setNavigationItemSelectedListener {
@@ -69,13 +64,21 @@ class HomeActivity : AppCompatActivity() {
                                 startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
                                 finish()
                             } else {
-
+                                // 실패 시 처리
                             }
                         }
                     }
                 }
             }
             true
+        }
+    }
+
+    override fun onBackPressed() {
+        if (binding.dlHome.isDrawerOpen(GravityCompat.END)) {
+            binding.dlHome.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
         }
     }
 
