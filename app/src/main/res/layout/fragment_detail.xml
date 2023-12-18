@@ -59,16 +59,17 @@
 
             <TextView
                 android:id="@+id/tv_detail_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="start|center"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="50dp"
                 android:text="@{post.title}"
-                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/iv_detail_favorites"
-                app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
-                app:layout_constraintTop_toTopOf="@+id/iv_profile_image" />
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:id="@+id/view_category"

@@ -71,11 +71,12 @@
         android:id="@+id/spinner_write_type"
         android:layout_width="165dp"
         android:layout_height="50dp"
+        android:layout_marginStart="1dp"
         android:gravity="start|center"
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/view_category"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_write_category"
         app:layout_constraintTop_toTopOf="@+id/tv_write_category" />
 
     <View
@@ -108,11 +109,11 @@
         android:background="@android:color/transparent"
         android:gravity="start|center"
         android:hint="@string/write_date_hint"
-        android:textColor="@color/black"
-        android:textSize="17sp"
         android:inputType="text"
         android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_write_date"
         app:layout_constraintStart_toEndOf="@+id/tv_write_category"
         app:layout_constraintTop_toTopOf="@+id/tv_write_date" />
 
