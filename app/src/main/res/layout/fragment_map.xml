@@ -15,6 +15,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/iv_current_location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_current_location"
+        android:background="@drawable/layout_map_background"
+        app:layout_constraintBottom_toTopOf="@+id/rv_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerInside" />
+
     <RelativeLayout
         android:id="@+id/rl_map_location_img"
         android:layout_width="match_parent"

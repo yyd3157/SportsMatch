@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.young.sportsmatch.R
@@ -101,13 +103,24 @@ class DetailFragment : Fragment() {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
         val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
+        val settingButton = activity?.findViewById<ImageView>(R.id.iv_setting)
+        val settingDrawer = activity?.findViewById<NavigationView>(R.id.nv_setting)
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.dl_home)
         if (boolean){
             bottomNavigation?.visibility = View.GONE
             backButton?.visibility = View.VISIBLE
+            settingButton?.visibility = View.GONE
+            settingDrawer?.visibility = View.GONE
+            bottomNavigation?.visibility = View.GONE
+            drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             writeButton?.hide()
         } else {
             bottomNavigation?.visibility = View.VISIBLE
             backButton?.visibility = View.GONE
+            settingButton?.visibility = View.VISIBLE
+            settingDrawer?.visibility = View.VISIBLE
+            bottomNavigation?.visibility = View.VISIBLE
+            drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             writeButton?.show()
         }
     }

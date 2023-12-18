@@ -3,7 +3,6 @@ package com.young.sportsmatch.ui.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,7 +56,16 @@ class SettingActivity : AppCompatActivity() {
         }
         binding.btnAddUser.setOnClickListener {
             val nickname = binding.etNickName.text.toString()
-            viewModel.addUser(nickname)
+            val regex = Regex("^[a-zA-Z0-9]{5,}+$|^[가-힣]{2,}$")
+            if (nickname.isNotEmpty()) {
+                if (nickname.matches(regex)) {
+                    viewModel.addUser(nickname)
+                } else {
+                    showToast(getString(R.string.setting_failed))
+                }
+            } else {
+                showToast(getString(R.string.write_failed))
+            }
         }
     }
 
@@ -83,14 +91,10 @@ class SettingActivity : AppCompatActivity() {
                             FirebaseStorage.getInstance().reference
                         val imageRef = storageReference.child(imageUrl)
                         imageRef.downloadUrl.addOnSuccessListener { uri ->
-                            Log.d("ImageLoad", "Image URL: $uri")
-                            binding.ivProfileImage.load(uri) {
-                                transformations(CircleCropTransformation())
-                                placeholder(R.drawable.ic_default_picture)
-                                error(R.drawable.ic_default_picture)
-                            }
+                            viewModel.updateSelectedImage(uri)
+                            selectedImage(uri)
                         }.addOnFailureListener { e ->
-                            Log.e("FirebaseStorage", "Error getting download URL: $e")
+
                         }
                         binding.etNickName.setText(nickName)
                     } else {
@@ -112,6 +116,8 @@ class SettingActivity : AppCompatActivity() {
     private fun showLoadingState() {
         lifecycleScope.launch {
             viewModel.isLoading.collect { state ->
+                binding.btnAddUser.isEnabled = !state
+
                 if (state) {
                     binding.workingProgressIndicator.visibility = View.VISIBLE
                     delay(Constants.DELAY_DURATION)
@@ -119,6 +125,7 @@ class SettingActivity : AppCompatActivity() {
                     moveToHome()
                 } else {
                     binding.workingProgressIndicator.visibility = View.GONE
+                    binding.btnAddUser.isEnabled = true
                 }
             }
         }
