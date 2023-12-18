@@ -1,10 +1,17 @@
 package com.young.sportsmatch.ui.map
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -28,6 +35,7 @@ class MapFragment : Fragment() {
     private lateinit var mapView: MapView
     private val mapViewModel: MapViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+    val REQUEST_LOCATION_PERMISSION = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +51,13 @@ class MapFragment : Fragment() {
         hideActivityMenu(true)
         setLayout()
         binding.rvMap.bringToFront()
+        binding.ivCurrentLocation.bringToFront()
         mapView = MapView(requireActivity())
         binding.rlMapLocationImg.addView(mapView)
         getPostMap()
+        binding.ivCurrentLocation.setOnClickListener {
+            setCurrentLocation()
+        }
     }
 
     override fun onDestroyView() {
@@ -106,6 +118,35 @@ class MapFragment : Fragment() {
             backButton?.visibility = View.GONE
         } else {
             writeButton?.show()
+        }
+    }
+
+    private fun setCurrentLocation() {
+        val permissionCheck = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val userCurLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+            if (userCurLocation != null) {
+                val uLatitude = userCurLocation.latitude
+                val uLongitude = userCurLocation.longitude
+                val uCurPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
+
+                Log.d("location", "$uCurPosition")
+                mapView.setMapCenterPointAndZoomLevel(
+                    uCurPosition, 4, true
+                )
+            }
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_PERMISSION
+            )
         }
     }
 }
