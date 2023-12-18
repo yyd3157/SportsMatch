@@ -2,6 +2,7 @@ package com.young.sportsmatch.ui.write
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -10,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.young.sportsmatch.R
 import com.young.sportsmatch.data.model.MarkerPlace
 import com.young.sportsmatch.databinding.FragmentWriteBinding
@@ -69,13 +73,22 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
         val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
+        val settingButton = activity?.findViewById<ImageView>(R.id.iv_setting)
+        val settingDrawer = activity?.findViewById<NavigationView>(R.id.nv_setting)
+        val drawerLayout = activity?.findViewById<DrawerLayout>(R.id.dl_home)
         if (boolean){
             backButton?.visibility = View.VISIBLE
+            settingButton?.visibility = View.GONE
+            settingDrawer?.visibility = View.GONE
             bottomNavigation?.visibility = View.GONE
+            drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             writeButton?.hide()
         } else {
             backButton?.visibility = View.GONE
+            settingButton?.visibility = View.VISIBLE
+            settingDrawer?.visibility = View.VISIBLE
             bottomNavigation?.visibility = View.VISIBLE
+            drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             writeButton?.show()
         }
     }
@@ -163,9 +176,19 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
             val content = binding.etWriteContent.text.toString()
 
             if (title.isNotEmpty()&&date.isNotEmpty()&&placeName != null&&x.isNotEmpty()&&y.isNotEmpty()) {
-                viewModel.addPost(title, category, type, date, MarkerPlace(placeName, x, y), content)
+                if (!viewModel.isLoading.value) {
+                    viewModel.addPost(
+                        title,
+                        category,
+                        type,
+                        date,
+                        MarkerPlace(placeName, x, y),
+                        content
+                    )
+                    showToast(getString(R.string.write_succeed))
+                }
             } else {
-                // 빈칸 조건에 따른 처리 예정
+                showToast(getString(R.string.write_failed))
             }
         }
     }
@@ -175,13 +198,30 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        context?.let { it1 ->
-            DatePickerDialog(it1, { _, year, month, day ->
+
+        context?.let {
+            val datePickerDialog = DatePickerDialog(it, { _, year, month, day ->
                 run {
-                    binding.etWriteDate.setText(String.format("%d.%d.%d / ", year, month + 1, day))
+                    val selectedDate = String.format("%d.%d.%d / ", year, month + 1, day)
+                    showTimePicker(selectedDate) // 시간 선택 다이얼로그 호출
                 }
             }, year, month, day)
-        }?.show()
+            datePickerDialog.show()
+        }
+    }
+
+    private fun showTimePicker(selectedDate: String) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        context?.let {
+            val timePickerDialog = TimePickerDialog(it, { _, hourOfDay, minute ->
+                val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                binding.etWriteDate.setText("$selectedDate$selectedTime")
+            }, hour, minute, true)
+            timePickerDialog.show()
+        }
     }
 
     private fun setUpSportsTypeSpinner() {
@@ -217,6 +257,12 @@ class WriteFragment : Fragment(), MapView.POIItemEventListener {
                     binding.workingProgressIndicator.visibility = View.GONE
                 }
             }
+        }
+    }
+
+    private fun showToast(message: String) {
+        context?.let {
+            Toast.makeText(it, message, Toast.LENGTH_SHORT).show()
         }
     }
 }
