@@ -1,6 +1,5 @@
 package com.young.sportsmatch.ui.bookmark
 
-import android.util.Log
 import com.young.sportsmatch.data.model.BookMarkItem
 import com.young.sportsmatch.data.model.Category
 import com.young.sportsmatch.database.BookmarkEntity
@@ -27,8 +26,11 @@ object SavedArticleDataManager {
         savedArticleList: List<BookmarkEntity>,
         category: String
     ): BookMarkItem.BookMarkSection? {
+        val categoryItems = savedArticleList.filter { it.category == category }
+        val reversedCategoryItems = categoryItems.reversed()
+
         val savedArticleSection = BookMarkItem.BookMarkSection(
-            savedArticleList.filter { it.category == category },
+            reversedCategoryItems,
             category
         )
 
