@@ -30,7 +30,7 @@
 |:---:|:---:|:---:|
 |<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/d4c755f4-4c7d-497f-98a5-cba17b4316b9"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/713b371f-68a9-4734-9c40-b1e768cad7ef"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/4fc4967e-3c91-4509-acd9-fdc7ac6a69fe"/>|
 
-Figma
+## Figma
 <div align=center> 
 <img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/ac5acbcd-6220-4b12-a5ff-93d951388312"/>
 </div>
