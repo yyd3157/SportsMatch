@@ -1,7 +1,7 @@
 # SportsMatch
 
 <div align=center> 
-<src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
+<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
 </div>
 
 ## 프로젝트 목표
