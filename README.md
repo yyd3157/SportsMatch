@@ -24,11 +24,11 @@
 주요 기능 소개
 |Map 화면|Home 화면|BookMark 화면|
 |---|---|---|
-|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/9d11619e-94b7-41ce-893b-0ee744a5baaa"/>|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/8b9cb113-b0d7-4570-9eb2-93288ff9fa47"/>|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/da01b904-bbd4-443b-947f-46cad9544bfa"/>|
+|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/7244c878-1cbf-4556-a5d2-8db81c5b7a75"/>|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/15506bc0-0a07-4ecf-bbcf-30c9a05ab330"/>|<img src="https://github.com/yyd3157/SportsMatch/assets/70931998/5f145bfe-61c0-4198-b1ff-1301dd9684c3"/>|
 
 |로그인, 로그아웃, 프로필설정|위치 권한 설정|글등록 화면|
 |---|---|---|
-|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/dce26625-d596-4d48-9bc5-6e5527003c7a"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/c511c20c-f044-493e-9fcc-88052130bff3"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/45bb2ad6-b7d5-4063-8e48-c0f2043d75bd"/>|
+|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/d4c755f4-4c7d-497f-98a5-cba17b4316b9"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/713b371f-68a9-4734-9c40-b1e768cad7ef"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/4fc4967e-3c91-4509-acd9-fdc7ac6a69fe"/>|
 
 Figma
 이미지
