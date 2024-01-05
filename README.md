@@ -1,6 +1,4 @@
-<div align=center> 
 # SportsMatch
-</div>
 
 <div align=center> 
 <img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
