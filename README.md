@@ -25,6 +25,7 @@
 |Map 화면|Home 화면|BookMark 화면|
 |---|---|---|
 |<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/9d11619e-94b7-41ce-893b-0ee744a5baaa"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/8b9cb113-b0d7-4570-9eb2-93288ff9fa47"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/da01b904-bbd4-443b-947f-46cad9544bfa"/>|
+
 |로그인, 로그아웃, 프로필설정|위치 권한 설정|글등록 화면|
 |---|---|---|
 |<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/dce26625-d596-4d48-9bc5-6e5527003c7a"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/c511c20c-f044-493e-9fcc-88052130bff3"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/45bb2ad6-b7d5-4063-8e48-c0f2043d75bd"/>|
