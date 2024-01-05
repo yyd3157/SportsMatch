@@ -1,6 +1,6 @@
 # SportsMatch
 
-이미지
+<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
 
 지도 특정 위치에 마커(마커 선택시 요약정보 제공)
 게시판 형태의 목록 제공
