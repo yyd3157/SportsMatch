@@ -1,14 +1,15 @@
 # SportsMatch
 
 <div align=center> 
-<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
+<src="https://github.com/yyd3157/SportsMatch/assets/70931998/12d6eb66-b4c4-4d6e-bac0-26d54685742d"/>
 </div>
 
-지도 특정 위치에 마커(마커 선택시 요약정보 제공)
-게시판 형태의 목록 제공
-글 등록 기능
-글 등록시 날짜, 지도 선택 기능
-개인정보 설정(닉네임, 프로필)
+## 프로젝트 목표
++ 유저 편의성 고려 (버그 최소화)
++ 가독성 높은 코드 작성
++ 기능을 구현하는 기술 스택의 선택 기준 설정
++ 기술 문서화의 습관화
++ 기획부터 구현까지의 지식 습득
 
 ## 기술 스택
 + Kotlin
