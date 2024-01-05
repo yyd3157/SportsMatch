@@ -11,11 +11,12 @@
 기술스택
 kotlin
 mvvm patten
-room, livedata, viewmodel, databinding, navigation
+Hilt
+room, livedata, Flow, viewmodel, databinding, navigation
 retrofit, okhttp3, moshi
 firebase, realtimedatabase
 coil
-material design, dark mode
+material design
 kakao maps api
 
 주요 기능 소개
