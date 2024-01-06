@@ -24,11 +24,11 @@
 ## 주요 기능 소개
 
 |Map 화면|Home 화면|BookMark 화면|
-|:---:|:---:|:---:|
+|:-----:|:-----:|:-----:|
 |<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/ca9e4b6b-ce25-4da6-aedb-96337e91a88f"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/5c8bb2f0-c684-4f00-8c93-bf1e34dcd284"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/42c5c4f9-f43d-4f3b-9968-9f7db3a5a8a4"/>|
 
 |로그인, 로그아웃, 프로필설정|위치 권한 설정|글등록 화면|
-|:---:|:---:|:---:|
+|:-----:|:-----:|:-----:|
 |<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/d8a599ef-647e-4147-b7a3-ce0c30a97edf"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/c176d3ae-13b7-4fdf-b912-73a286ad7bd4"/>|<img width="80%" src="https://github.com/yyd3157/SportsMatch/assets/70931998/529da02f-de2c-43f5-9ce6-51f2a688c4c2"/>|
 
 ## Figma
