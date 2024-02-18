@@ -24,15 +24,15 @@ android {
             keyPassword = keystoreProperties.getProperty("keyPassword")
         }
     }
-    namespace = "com.young.sportsmatch"
+    namespace = "com.uyoung.sportsmatch"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.young.sportsmatch"
+        applicationId = "com.uyoung.sportsmatch"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.1"
+        versionCode = 11
+        versionName = "1.0.11"
         setProperty("archivesBaseName", "${applicationId}-v${versionName}")
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties["google_client_id"] as String)
@@ -54,8 +54,12 @@ android {
                 "proguard-rules.pro"
             )
             versionNameSuffix = "-release"
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
         debug {
+            isMinifyEnabled = false
             isDebuggable = true
             versionNameSuffix = "-debug"
         }
@@ -98,7 +102,7 @@ dependencies {
     implementation ("io.coil-kt:coil:2.4.0")
 
     // Firebase 관련 라이브러리
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")

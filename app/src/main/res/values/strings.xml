@@ -37,8 +37,10 @@
     <string name="label_main_destination">HomeActivity</string>
     <string name="label_write_destination">WriteFragment</string>
     <string name="label_post_list_destination">CategoryPostListFragment</string>
+    <string name="label_detail_destination">DetailFragment</string>
     <string name="dialog_text">잠시만 기다려 주세요.</string>
     <string name="write_succeed">등록 되었습니다.</string>
     <string name="write_failed">모든 정보를 입력 해주세요.</string>
-    <string name="setting_failed">영문 + 숫자 5글자 혹은 한글 2글자 이상으로 설정해주세요.</string>
+    <string name="setting_failed">영문 + 숫자 5글자 혹은 한글 2글자 이상, 6글자 이하로 설정해주세요.</string>
+    <string name="write_failed_profile">글을 등록하려면 프로필 사진과 닉네임을 설정해주세요.</string>
 </resources>

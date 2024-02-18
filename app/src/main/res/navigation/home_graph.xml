@@ -7,27 +7,31 @@
 
     <activity
         android:id="@+id/homeActivity"
-        android:name="com.young.sportsmatch.ui.home.HomeActivity"
+        android:name="com.uyoung.sportsmatch.ui.home.HomeActivity"
         android:label="@string/label_main_destination"
         tools:layout="@layout/activity_home" />
+
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.young.sportsmatch.ui.bookmark.BookmarkFragment"
+        android:name="com.uyoung.sportsmatch.ui.bookmark.BookmarkFragment"
         android:label="@string/label_favorites_destination"
         tools:layout="@layout/fragment_bookmark" />
+
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.young.sportsmatch.ui.home.HomeFragment"
+        android:name="com.uyoung.sportsmatch.ui.home.HomeFragment"
         android:label="@string/label_home_destination"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.young.sportsmatch.ui.map.MapFragment"
+        android:name="com.uyoung.sportsmatch.ui.map.MapFragment"
         android:label="@string/label_map_destination"
         tools:layout="@layout/fragment_map" />
+
     <fragment
         android:id="@+id/navigaion_write"
-        android:name="com.young.sportsmatch.ui.write.WriteFragment"
+        android:name="com.uyoung.sportsmatch.ui.write.WriteFragment"
         android:label="@string/label_write_destination"
         tools:layout="@layout/fragment_write">
         <action
@@ -37,16 +41,16 @@
 
     <fragment
         android:id="@+id/navigation_post_list"
-        android:name="com.young.sportsmatch.ui.home.CategoryPostListFragment"
+        android:name="com.uyoung.sportsmatch.ui.home.CategoryPostListFragment"
         android:label="@string/label_post_list_destination" />
 
     <fragment
         android:id="@+id/navigation_detail"
-        android:name="com.young.sportsmatch.ui.detail.DetailFragment"
-        android:label="DetailFragment">
+        android:name="com.uyoung.sportsmatch.ui.detail.DetailFragment"
+        android:label="@string/label_detail_destination">
         <argument
             android:name="post"
-            app:argType="com.young.sportsmatch.data.model.Post" />
+            app:argType="com.uyoung.sportsmatch.data.model.Post" />
     </fragment>
 
     <action
