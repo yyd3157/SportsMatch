@@ -2,13 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="green_100">#D4FFD9</color>
+    <color name="green_100">#8BC34A</color>
     <color name="grey_100">#1A000000</color>
     <color name="green_200">#378B63</color>
-    <color name="green_300">#85FFC4</color>
+    <color name="green_300">#388E3C</color>
     <color name="green_400">#097000</color>
     <color name="green_500">#D0E5D3</color>
-    <color name="green_600">#F4FFF5</color>
-    <color name="green_700">#00796B</color>
-    <color name="green_800">#B9FFA0</color>
+    <color name="green_600">#C8E6C9</color>
+    <color name="green_700">#4CAF50</color>
+    <color name="green_800">#4CAF50</color>
 </resources>

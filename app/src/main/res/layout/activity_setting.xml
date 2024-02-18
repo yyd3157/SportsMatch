@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.young.sportsmatch.ui.common.DialogIndicatorView
+    <com.uyoung.sportsmatch.ui.common.DialogIndicatorView
         android:id="@+id/working_progress_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

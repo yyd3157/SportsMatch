@@ -81,7 +81,7 @@
     # This rule will properly ProGuard all the model classes in
     # the package com.yourcompany.models.
     # Modify this rule to fit the structure of your app.
-    -keepclassmembers class com.young.sportsmatch.** {
+    -keepclassmembers class com.uyoung.sportsmatch.** {
       *;
     }
 
@@ -127,45 +127,16 @@
 
 ##End Moshi##
 
-##Begin Gson##
-
-# Gson uses generic type information stored in a class file when working with fields. Proguard
-# removes such information by default, so configure it to keep all of it.
--keepattributes Signature
-
-# For using GSON @Expose annotation
--keepattributes *Annotation*
-
-# Gson specific classes
--dontwarn sun.misc.**
-#-keep class com.google.gson.stream.** { *; }
-
-# Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { <fields>; }
-
-# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * extends com.google.gson.TypeAdapter
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
-# Prevent R8 from leaving Data object members always null
--keepclassmembers,allowobfuscation class * {
-  @com.google.gson.annotations.SerializedName <fields>;
-}
-
-# Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
--keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
--keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
-##End Gson##
-
 # Keep all classes under net.daum package
 -keep class net.daum.** { *; }
 
 # Keep all classes under android.opengl package
 -keep class android.opengl.** { *; }
 
--keep class com.young.sportsmatch.data.model.** { *; }
+-keep class com.uyoung.sportsmatch.data.model.** { *; }
 
--keep class com.young.sportsmatch.network.** { *; }
+-keep class com.uyoung.sportsmatch.network.** { *; }
+
+-keepclassmembers class * {
+    void onItemClick(com.uyoung.sportsmatch.data.model.Post, android.view.View);
+}

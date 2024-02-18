@@ -1,12 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.SportsMatch" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/green_300</item>
+        <item name="colorPrimaryVariant">@color/green_600</item>
+        <item name="colorOnPrimary">@color/green_700</item>
+        <item name="colorAccent">@color/green_100</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
 
     <style name="Theme.SportsMatch" parent="Base.Theme.SportsMatch" />
     <style name="TabTextSmallLetter" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
+    </style>
+    <style name="BottomNavigationCustom" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/green_700</item>
     </style>
 </resources>

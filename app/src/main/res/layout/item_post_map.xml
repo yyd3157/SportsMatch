@@ -6,11 +6,11 @@
     <data>
         <variable
             name="postList"
-            type="com.young.sportsmatch.data.model.Post" />
+            type="com.uyoung.sportsmatch.data.model.Post" />
 
         <variable
             name="viewModel"
-            type="com.young.sportsmatch.ui.home.HomeViewModel" />
+            type="com.uyoung.sportsmatch.ui.home.HomeViewModel" />
 
     </data>
 
