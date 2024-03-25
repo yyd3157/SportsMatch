@@ -17,7 +17,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.uyoung.sportsmatch.R
 import com.uyoung.sportsmatch.databinding.FragmentMapBinding
 import com.uyoung.sportsmatch.ui.home.HomeViewModel
@@ -48,7 +47,7 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideActivityMenu(true)
+        hideActivityMenu()
         setLayout()
         binding.rvMap.bringToFront()
         binding.ivCurrentLocation.bringToFront()
@@ -62,7 +61,6 @@ class MapFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        hideActivityMenu(false)
         _binding = null
     }
 
@@ -110,15 +108,9 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun hideActivityMenu(boolean: Boolean) {
-        val writeButton = activity?.findViewById<ExtendedFloatingActionButton>(R.id.write_button)
+    private fun hideActivityMenu() {
         val backButton = activity?.findViewById<ImageView>(R.id.iv_back)
-        if (boolean){
-            writeButton?.hide()
-            backButton?.visibility = View.GONE
-        } else {
-            writeButton?.show()
-        }
+        backButton?.visibility = View.GONE
     }
 
     private fun setCurrentLocation() {

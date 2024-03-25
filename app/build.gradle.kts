@@ -31,8 +31,8 @@ android {
         applicationId = "com.uyoung.sportsmatch"
         minSdk = 24
         targetSdk = 34
-        versionCode = 13
-        versionName = "1.0.13"
+        versionCode = 14
+        versionName = "1.0.14"
         setProperty("archivesBaseName", "${applicationId}-v${versionName}")
 
         buildConfigField("String", "GOOGLE_CLIENT_ID", properties["google_client_id"] as String)
