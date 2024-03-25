@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.uyoung.sportsmatch.R
 import com.uyoung.sportsmatch.databinding.ActivityHomeBinding
 import com.uyoung.sportsmatch.ui.login.LoginActivity
@@ -73,6 +74,11 @@ class HomeActivity : AppCompatActivity() {
             }
             true
         }
+        val navControllers = supportFragmentManager.findFragmentById(R.id.home_container)?.findNavController()
+        navControllers?.addOnDestinationChangedListener { _, destination, _ ->
+            // 현재 destination이 HOME인지 확인하여 글쓰기 버튼 가시성을 조절합니다.
+            setWriteButtonVisibility(destination.id)
+        }
     }
 
     override fun onBackPressed() {
@@ -108,6 +114,15 @@ class HomeActivity : AppCompatActivity() {
                         showToast(getString(R.string.write_failed_profile))
                     }
                 }
+        }
+    }
+
+    private fun setWriteButtonVisibility(destinationId: Int) {
+        val writeButton = findViewById<ExtendedFloatingActionButton>(R.id.write_button)
+        if (destinationId == R.id.navigation_home) {
+            writeButton.show()
+        } else {
+            writeButton.hide()
         }
     }
 }
