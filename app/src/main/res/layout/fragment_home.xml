@@ -12,7 +12,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:tabGravity="center"
-    app:tabIndicatorColor="@color/black"
+    app:tabIndicatorColor="@color/green_400"
     app:tabIndicatorHeight="3dp"
     app:tabBackground="@drawable/underline"
     app:tabMode="scrollable"

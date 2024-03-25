@@ -9,6 +9,7 @@
     <string name="login_login_failed_error">로그인에 실패하였습니다.</string>
     <string name="nick_name_hint">닉네임</string>
     <string name="complete">완 료</string>
+    <string name="submit">등 록</string>
     <string name="logout">로그아웃</string>
     <string name="logout_succeed">로그아웃 되었습니다.</string>
     <string name="modified_profile">프로필 설정</string>
