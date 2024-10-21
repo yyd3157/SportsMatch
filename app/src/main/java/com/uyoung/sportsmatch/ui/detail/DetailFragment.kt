@@ -125,6 +125,11 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private fun submitComment() {
+
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         hideActivityMenu(false)

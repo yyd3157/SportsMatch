@@ -10,8 +10,16 @@
             type="com.uyoung.sportsmatch.data.model.Post" />
 
         <variable
+            name="comment"
+            type="com.uyoung.sportsmatch.data.model.Comment" />
+
+        <variable
             name="viewModel"
             type="com.uyoung.sportsmatch.ui.home.HomeViewModel" />
+
+        <variable
+            name="commentViewModel"
+            type="com.uyoung.sportsmatch.ui.detail.CommentViewModel" />
 
     </data>
 
@@ -22,7 +30,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profile_image"
@@ -173,14 +182,42 @@
             <TextView
                 android:id="@+id/tv_write_content"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{post.content}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_location_img" />
+                app:layout_constraintTop_toBottomOf="@+id/view_location_img"
+                app:layout_constraintBottom_toTopOf="@+id/view_write_content"/>
+
+            <View
+                android:id="@+id/view_write_content"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/green_400"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_write_content" />
+
+            <EditText
+                android:id="@+id/et_write_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:gravity="start"
+                android:hint="@string/write_content_hint"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_write_content" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
