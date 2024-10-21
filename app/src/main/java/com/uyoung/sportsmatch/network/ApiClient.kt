@@ -1,5 +1,6 @@
 package com.uyoung.sportsmatch.network
 
+import com.uyoung.sportsmatch.data.model.Comment
 import com.uyoung.sportsmatch.data.model.Post
 import com.uyoung.sportsmatch.data.model.User
 import com.uyoung.sportsmatch.network.model.ApiResponse
@@ -35,4 +36,11 @@ interface ApiClient {
     suspend fun getPostList(
         @Query("auth") auth: String,
     ): ApiResponse<Map<String, Post>>
+
+    @POST("comment.json")
+    suspend fun addComment(
+        @Query("auth") auth: String,
+        @Body comment: Comment,
+    ): ApiResponse<Map<String, String>>
+
 }
