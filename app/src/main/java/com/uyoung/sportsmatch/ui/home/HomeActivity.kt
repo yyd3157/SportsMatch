@@ -26,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: SettingViewModel by viewModels()
-    private var userLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,10 +106,13 @@ class HomeActivity : AppCompatActivity() {
             viewModel.getUser()
             viewModel.userInfo.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { user ->
-                    if (user != null && !userLoaded) {
-                        userLoaded = true
+
+                    if (user != null) {
                         navigateToWrite()
-                    } else {
+                    } else if (viewModel.isLoading.value) {
+                        showToast(getString(R.string.dialog_text))
+                    }
+                    else{
                         showToast(getString(R.string.write_failed_profile))
                     }
                 }

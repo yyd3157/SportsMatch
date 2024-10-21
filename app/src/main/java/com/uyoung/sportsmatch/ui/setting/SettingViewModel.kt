@@ -35,14 +35,15 @@ class SettingViewModel @Inject constructor(
                 onError = { },
                 nickname,
                 imageUrl.toString(),
-                ). collect { }
+            ). collect { }
         }
     }
 
     fun getUser() {
         viewModelScope.launch {
+            _isLoading.value = true
             repository.getUser(
-                onComplete = { },
+                onComplete = { _isLoading.value = false },
                 onError = { },
             ).collect { response ->
                 if (response is ApiResultSuccess) {
